@@ -1,0 +1,30 @@
+{
+  "source": "illustrative",
+  "generatedAt": "2026-10-14",
+  "year": 2026,
+  "note": "Illustrative figures for the design. Replace with npm run fetch-impact-metrics once an Airtable token is set.",
+  "members": 420,
+  "monthly": [
+    { "month": "2026-01", "members": 100 },
+    { "month": "2026-02", "members": 124 },
+    { "month": "2026-03", "members": 151 },
+    { "month": "2026-04", "members": 180 },
+    { "month": "2026-05", "members": 214 },
+    { "month": "2026-06", "members": 262 },
+    { "month": "2026-07", "members": 310 },
+    { "month": "2026-08", "members": 331 },
+    { "month": "2026-09", "members": 372 },
+    { "month": "2026-10", "members": 420 }
+  ],
+  "levels": [
+    { "level": 0, "count": 60 },
+    { "level": 1, "count": 150 },
+    { "level": 2, "count": 110 },
+    { "level": 3, "count": 60 },
+    { "level": 4, "count": 25 },
+    { "level": 5, "count": 15 }
+  ],
+  "movedUp": 96,
+  "courseCompletions": 138,
+  "chapters": []
+}

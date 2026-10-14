@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 190" fill="none">
+  <!-- A feature-level lens on a model's preference controls. Same rounded,
+       slightly asymmetric ink contours as ResearchIllustration.tsx. -->
+  <g stroke="#021c4d" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M57 158 Q175 156 304 159" opacity=".2"/>
+    <path d="M84 37 L183 33 L188 147 L89 152 Z" fill="#f7f5f2"/>
+    <path d="M99 51 L152 49 M100 60 L139 59" opacity=".35"/>
+    <path d="M107 81 L140 95 L163 77 M108 117 L140 95 L166 120" opacity=".35"/>
+    <circle cx="107" cy="81" r="6"/><circle cx="108" cy="117" r="6"/>
+    <circle cx="163" cy="77" r="6"/><circle cx="166" cy="120" r="6"/>
+    <circle cx="140" cy="95" r="7" fill="#ff6025" stroke="#ff6025"/>
+    <path d="M208 48 Q226 44 280 47 L278 135 L208 137 Z" fill="#f7f5f2"/>
+    <path d="M226 63 L226 117 M244 63 L244 117 M262 63 L262 117" opacity=".35"/>
+    <path d="M220 87 L232 87 M238 105 L250 105" stroke="#ff6025" stroke-width="5"/>
+    <path d="M256 75 L268 75" stroke-width="5"/>
+    <path d="M189 89 Q196 86 203 88 M198 83 L204 88 L199 93" stroke="#ff6025"/>
+    <circle cx="127" cy="100" r="37" fill="#f7f5f2" fill-opacity=".25"/>
+    <path d="M101 128 L73 155 Q69 159 64 154 Q61 151 65 147 L94 120" fill="#f7f5f2"/>
+    <path d="M101 87 Q106 76 117 74" stroke="#f7f5f2" stroke-width="4"/>
+  </g>
+</svg>

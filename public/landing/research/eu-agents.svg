@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 190" fill="none">
+  <!-- A tool-using agent's actions meet a legal evaluation rubric. -->
+  <g stroke="#021c4d" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M52 158 Q182 155 307 158" opacity=".2"/>
+    <path d="M63 65 Q62 60 70 59 L174 56 Q180 56 181 63 L184 133 L67 135 Z" fill="#f7f5f2"/>
+    <path d="M66 135 L53 151 Q109 156 196 150 L184 133 M103 146 L143 145" fill="#f7f5f2"/>
+    <path d="M81 78 L115 77 M81 87 L107 87 M82 115 L104 115" opacity=".4"/>
+    <path d="M122 85 L145 85 L145 109 L166 109" stroke="#ff6025"/>
+    <circle cx="122" cy="85" r="4" fill="#ff6025" stroke="#ff6025"/>
+    <path d="M161 104 L167 109 L162 114" stroke="#ff6025"/>
+    <path d="M207 34 L270 32 L290 53 L288 145 L207 149 Z" fill="#f7f5f2"/>
+    <path d="M270 32 L270 53 L290 53 M225 123 L269 122 M225 132 L255 131" opacity=".4"/>
+    <path d="M248 58 L248 110 M225 110 L270 110 M220 71 Q247 66 277 71"/>
+    <path d="M224 71 L213 92 L236 92 Z M272 71 L261 92 L284 92 Z" fill="#ff6025" fill-opacity=".12"/>
+    <path d="M213 92 Q224 105 236 92 M261 92 Q272 105 284 92" stroke="#ff6025"/>
+    <circle cx="248" cy="63" r="4" fill="#ff6025" stroke="#ff6025"/>
+  </g>
+</svg>

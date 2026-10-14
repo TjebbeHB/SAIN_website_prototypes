@@ -1,0 +1,321 @@
+/* Safe AI Netherlands brand foundation.
+   Plain-CSS mirror of the shipped system in src/app/globals.css (@theme).
+   Agents: load this stylesheet. Do not invent type sizes, hex values, or radii.
+   No mono face: IBM Plex Mono is retired; indices are Archivo at the index role. */
+
+:root {
+  --color-canvas: #FFFFFF;
+  --color-canvas-soft: #F7F5F2;
+  --color-canvas-inverse: #021C4D;
+  --color-canvas-header: rgb(255 255 255 / 94%);
+  --color-ink: #021C4D;
+  --color-ink-body: rgb(2 28 77 / 74%);
+  --color-ink-secondary: rgb(2 28 77 / 65%);
+  --color-ink-kicker: rgb(2 28 77 / 65%);
+  --color-ink-meta: rgb(2 28 77 / 58%);
+  --color-hairline: rgb(2 28 77 / 10%);
+  --color-hairline-strong: rgb(2 28 77 / 20%);
+  --color-rule: rgb(2 28 77 / 14%);
+  --color-on-inverse: #FFFFFF;
+  --color-on-inverse-body: rgb(255 255 255 / 75%);
+  --color-on-inverse-kicker: rgb(255 255 255 / 60%);
+  --color-on-inverse-meta: rgb(255 255 255 / 50%);
+  --color-on-inverse-hairline: rgb(255 255 255 / 16%);
+  --color-on-inverse-fill: rgb(255 255 255 / 8%);
+  --color-on-inverse-ghost: rgb(255 255 255 / 32%);
+  --color-on-accent: #FFFFFF;
+  --color-primary: var(--color-ink);
+  --color-accent: #FF6025;
+  --color-accent-hover: #E65620;
+  /* Orange letterforms on light grounds only (AA: 5.27:1 on white). Surfaces
+     and large glyphs keep --color-accent. */
+  --color-accent-ink: #C13F10;
+
+  --font-serif: "IBM Plex Serif", Georgia, serif;
+  --font-sans: "Archivo", system-ui, sans-serif;
+
+  /* Fixed reading roles. */
+  --text-index: 11px;
+  --text-footnote: 13px;
+  --text-caption: 13.5px;
+  --text-label: 14px;
+  --text-ui: 14.5px;
+  --text-kicker-sm: 15px;
+  --text-body: 16.5px;
+  --text-kicker: 17px;
+  --text-title-sm: 19px;
+  --text-title: 21px;
+
+  /* Fluid display roles: interpolate 375px -> 1280px, then hold. */
+  --text-heading-sm: clamp(1.5rem, 0.5vw + 1.381rem, 1.781rem);   /* 24 -> 28.5 */
+  --text-closing: clamp(1.6875rem, 0.5vw + 1.57rem, 1.969rem);    /* 27 -> 31.5 */
+  --text-heading: clamp(1.781rem, 0.66vw + 1.625rem, 2.156rem);   /* 28.5 -> 34.5 */
+  --text-display: clamp(2.25rem, 1.33vw + 1.94rem, 3rem);         /* 36 -> 48 */
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+
+  --tracking-index: 0.1em;
+  --tracking-heading: -0.012em;
+  --tracking-heading-sm: -0.012em;
+  --tracking-closing: -0.014em;
+  --tracking-display: -0.02em;
+
+  --leading-index: 14px;
+  --leading-footnote: 18px;
+  --leading-caption: 18px;
+  --leading-label: 20px;
+  --leading-ui: 20px;
+  --leading-kicker-sm: 20px;
+  --leading-body: 27px;
+  --leading-kicker: 24px;
+  --leading-title-sm: 24px;
+  --leading-title: 26px;
+  --leading-quote: 31px;
+  --leading-heading: 1.14;
+  --leading-heading-sm: 1.14;
+  --leading-closing: 1.1;
+  --leading-display: 1.07;
+
+  --breakpoint-sm: 390px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1440px;
+
+  --container-page: 1440px;
+  --container-copy-narrow: 620px;
+  --container-copy: 720px;
+  --container-copy-wide: 760px;
+
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-7: 48px;
+  --spacing-9: 88px;
+
+  --radius-none: 0px;
+  --radius-hair: 3px;
+  --radius-full: 9999px;
+}
+
+.sain-page {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-regular);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Page gutter: 24px, 48px from md up, inside the 1440 canvas. */
+.sain-shell {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: 24px;
+  box-sizing: border-box;
+}
+@media (min-width: 768px) {
+  .sain-shell { padding-inline: 48px; }
+}
+
+.sain-display {
+  font-family: var(--font-serif);
+  font-size: var(--text-display);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+}
+
+.sain-heading {
+  font-family: var(--font-serif);
+  font-size: var(--text-heading);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-ink);
+}
+
+.sain-heading-sm {
+  font-family: var(--font-serif);
+  font-size: var(--text-heading-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-heading-sm);
+  letter-spacing: var(--tracking-heading-sm);
+  color: var(--color-ink);
+}
+
+.sain-closing {
+  font-family: var(--font-serif);
+  font-size: var(--text-closing);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-closing);
+  letter-spacing: var(--tracking-closing);
+  color: var(--color-ink);
+}
+
+/* IBM Plex Serif italic, never tracked, never uppercase. */
+.sain-kicker {
+  font-family: var(--font-serif);
+  font-size: var(--text-kicker);
+  font-style: italic;
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-kicker);
+  color: var(--color-ink-kicker);
+}
+
+.sain-kicker-sm {
+  font-family: var(--font-serif);
+  font-size: var(--text-kicker-sm);
+  font-style: italic;
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-kicker-sm);
+  color: var(--color-ink-kicker);
+}
+
+.sain-body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-body);
+  color: var(--color-ink-body);
+  max-width: var(--container-copy);
+}
+
+.sain-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--radius-none);
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-regular);
+  cursor: pointer;
+  transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sain-button:hover,
+.sain-button:focus-visible { transform: translateY(-2px); }
+.sain-button:active { transform: scale(0.98); }
+
+.sain-button-accent {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: var(--text-ui);
+  line-height: var(--leading-ui);
+  padding: 14px 24px;
+}
+.sain-button-accent:hover,
+.sain-button-accent:focus-visible { background: var(--color-accent-hover); }
+
+.sain-button-ink {
+  background: var(--color-primary);
+  color: var(--color-on-inverse);
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  padding: 11px 18px;
+}
+.sain-button-ink:hover,
+.sain-button-ink:focus-visible { background: var(--color-accent); }
+
+.sain-button-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline-strong);
+  font-size: var(--text-caption);
+  line-height: var(--leading-caption);
+  padding: 10px 16px;
+}
+.sain-button-ghost:hover,
+.sain-button-ghost:focus-visible {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-on-inverse);
+}
+
+.sain-button-outline {
+  background: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  font-size: var(--text-label);
+  line-height: var(--leading-label);
+  padding: 13px 20px;
+}
+.sain-button-outline:hover,
+.sain-button-outline:focus-visible {
+  background: var(--color-ink);
+  color: var(--color-on-inverse);
+}
+
+.sain-button-ghost-inverse {
+  background: transparent;
+  color: var(--color-on-inverse);
+  border: 1px solid var(--color-on-inverse-ghost);
+  font-size: var(--text-label);
+  line-height: var(--leading-label);
+  padding: 14px 22px;
+}
+.sain-button-ghost-inverse:hover,
+.sain-button-ghost-inverse:focus-visible { border-color: var(--color-on-inverse); }
+
+.sain-button:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.sain-section {
+  padding: var(--spacing-9) var(--spacing-7);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.sain-band-paper { background: var(--color-canvas-soft); }
+
+.sain-band-inverse {
+  background: var(--color-canvas-inverse);
+  color: var(--color-on-inverse);
+  border-top-color: var(--color-on-inverse-hairline);
+}
+.sain-band-inverse .sain-heading,
+.sain-band-inverse .sain-heading-sm,
+.sain-band-inverse .sain-closing,
+.sain-band-inverse .sain-display { color: var(--color-on-inverse); }
+.sain-band-inverse .sain-kicker,
+.sain-band-inverse .sain-kicker-sm { color: var(--color-on-inverse-kicker); }
+.sain-band-inverse .sain-body { color: var(--color-on-inverse-body); }
+.sain-band-inverse .sain-button:focus-visible { outline-color: var(--color-on-inverse); }
+
+::selection {
+  background: var(--color-accent);
+  color: #FFFFFF;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* October 2026 redesign (see design.md): the night theme for surfaces that
+   load this stylesheet. Same roles, re-pointed; orange does not move. */
+:root[data-theme="dark"] {
+  --color-canvas: #021C4D;
+  --color-canvas-soft: #082656;
+  --color-canvas-inverse: #01112F;
+  --color-canvas-header: rgb(2 28 77 / 94%);
+  --color-ink: #F1EEE8;
+  --color-ink-body: rgb(241 238 232 / 74%);
+  --color-ink-secondary: rgb(241 238 232 / 65%);
+  --color-ink-kicker: rgb(241 238 232 / 65%);
+  --color-ink-meta: rgb(241 238 232 / 58%);
+  --color-hairline: rgb(241 238 232 / 10%);
+  --color-hairline-strong: rgb(241 238 232 / 20%);
+  --color-rule: rgb(241 238 232 / 14%);
+  --color-accent-ink: #FF8A5B;
+}

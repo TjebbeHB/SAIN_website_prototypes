@@ -1,0 +1,39 @@
+{
+  "name": "sain-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node --use-system-ca node_modules/next/dist/bin/next dev",
+    "dev:turbo": "node --use-system-ca node_modules/next/dist/bin/next dev --turbo",
+    "build": "node --use-system-ca node_modules/next/dist/bin/next build",
+    "start": "node --use-system-ca node_modules/next/dist/bin/next start",
+    "preview": "node --use-system-ca node_modules/next/dist/bin/next build && npx --yes serve out -l 3000",
+    "lint": "node --use-system-ca node_modules/next/dist/bin/next lint",
+    "images": "node --use-system-ca scripts/generate-responsive-images.mjs",
+    "fetch-luma-events-amsterdam": "node --use-system-ca scripts/fetch-luma-events-amsterdam.mjs",
+    "fetch-luma-events-utrecht": "node --use-system-ca scripts/fetch-luma-events-utrecht.mjs",
+    "fetch-impact-metrics": "node --use-system-ca scripts/fetch-impact-metrics.mjs",
+    "build-atlas-geography": "node --use-system-ca scripts/build-atlas-geography.mjs"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "d3-geo": "^3.1.1",
+    "motion": "^13.2.0",
+    "next": "^14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/d3-geo": "^3.1.1",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.15",
+    "postcss": "^8.4.47",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.5.0"
+  }
+}

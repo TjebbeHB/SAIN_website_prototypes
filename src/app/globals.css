@@ -1,0 +1,1121 @@
+@import 'tailwindcss' source(none);
+@source '../../src/**/*.{js,ts,jsx,tsx,mdx}';
+
+/* -----------------------------------------------------------------------------
+   Safe AI Netherlands brand foundation.
+
+   Tokens mirror design/sain-brand.css and design/design.md (Paper file,
+   "Desktop - Landing"). Navy is ink, orange is action, paper is the printed
+   programme. Corners are square because this is print, not product.
+
+   Do not invent a type size, a hex value, or a radius that is not here.
+----------------------------------------------------------------------------- */
+
+@theme {
+  /* Brand surfaces and ink.
+
+     Every colour below is a role, not a paint, so the dark theme further down
+     can re-point the role and leave the call sites alone:
+
+       navy     ink. Text, hairlines and tints (`text-navy/72`, `border-navy/10`).
+       page     the reading ground. White by day.
+       cream    paper, the printed-programme ground.
+       inverse  the navy band: hero, research, close, footer. White text on it.
+       chalk    light ink that stays light: text on a photo scrim or a band
+                that is dark in both themes.
+       on-ink   text set on an ink fill, the reverse of whatever ink is. */
+  --color-navy: #021c4d;
+  --color-orange: #ff6025;
+  --color-orange-hover: #e65620;
+  --color-cream: #f7f5f2;
+  --color-page: #ffffff;
+  --color-inverse: #021c4d;
+  --color-chalk: #f7f5f2;
+  --color-on-ink: #ffffff;
+  /* The sky behind the atlas in the hero, one step past inverse. */
+  --color-deep: #021c4d;
+
+  /* Orange for text on a light ground, and only there.
+
+     design.md puts course-outline numbers and active indices in the orange
+     budget, but #FF6025 on white is 3.02:1 and on cream 2.78:1 -- fine for a
+     26px stroke icon at the 3:1 non-text threshold, not for a numeral that is
+     the only list marker the row has. This is the same hue (16deg) carried
+     down to 5.27:1 on white and 4.84:1 on cream, so a numeral still reads as
+     orange and still clears AA. The fill orange is untouched: identity stays
+     #FF6025 everywhere it is a surface rather than a letterform. */
+  --color-orange-ink: #c13f10;
+
+  /* Legacy scale, still referenced by pages awaiting redesign. */
+  --color-navy-500: #4070b0;
+  --color-navy-600: #2d5594;
+  --color-navy-700: #1a4080;
+  --color-navy-800: #0a2f6e;
+  --color-navy-900: #021c4d;
+  --color-navy-950: #021c4d;
+  --color-dutch-orange: #ff6025;
+  --color-dutch-orange-light: #ffb966;
+  --color-dutch-orange-dark: #e65620;
+  --color-dutch-orange-50: #fff5ed;
+  --color-dutch-orange-100: #ffe4cc;
+
+  /* League Spartan for headings and editorial text; Poppins for body copy and
+     interface labels. The token keeps the name `serif` so every heading call
+     site (`font-serif`) follows it without being renamed. */
+  --font-serif: var(--font-league-spartan), system-ui, sans-serif;
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  --font-display: var(--font-league-spartan), system-ui, sans-serif;
+
+  /* Published type roles.
+
+     Reading sizes are fixed. Body at 16.5 is already right on a phone, and
+     scaling it with the viewport only makes it wrong at one end.
+
+     The four display roles are ramps, not px values with a jump at one
+     breakpoint. design.md gives both ends ("Display 36/40. Heading 32/36"
+     below md), so each clamp interpolates between a 375px phone and a 1280px
+     laptop, then holds. Written in rem rather than px so the ramp still
+     answers to a reader who has changed their default font size.
+
+     The maxima are what the landing ships, which has drifted from the table
+     in design.md: Display is 48/51 here against the published 46/52, and
+     Heading is 34.5/39 against 38/43. Preserved rather than corrected --
+     that is a typographic decision to make deliberately, not a side effect
+     of making the page responsive. */
+  /* Each fixed role carries its published line height, so a call site names the
+     role instead of restating both numbers. Sites that deviate keep an explicit
+     `leading-*`, which is then a visible decision rather than the norm. */
+  --text-index: 11px;
+  --text-index--line-height: 14px;
+  --text-index--letter-spacing: 0.1em;
+  --text-footnote: 13px;
+  --text-footnote--line-height: 18px;
+  --text-caption: 13.5px;
+  --text-caption--line-height: 18px;
+  --text-label: 14px;
+  --text-label--line-height: 20px;
+  /* Not in the published table. Twelve call sites shipped it - small kickers on
+     inverse, the announcement line, course outline labels - so it is named here
+     rather than left as a literal repeated a dozen times. */
+  --text-kicker-sm: 15px;
+  --text-kicker-sm--line-height: 20px;
+  --text-ui: 14.5px;
+  --text-ui--line-height: 20px;
+  --text-body: 16.5px;
+  --text-body--line-height: 27px;
+  --text-kicker: 17px;
+  --text-kicker--line-height: 24px;
+  --text-title-sm: 19px;
+  --text-title-sm--line-height: 24px;
+  --text-title: 21px;
+  --text-title--line-height: 26px;
+
+  /* 28.5 -> 34.5. Section turns. */
+  --text-heading: clamp(1.781rem, 0.66vw + 1.625rem, 2.156rem);
+  --text-heading--line-height: 1.12;
+  --text-heading--letter-spacing: -0.02em;
+  --text-heading--font-weight: 700;
+
+  /* 24 -> 28.5. The quieter turns: community, careers, research subsections. */
+  --text-heading-sm: clamp(1.5rem, 0.5vw + 1.381rem, 1.781rem);
+  --text-heading-sm--line-height: 1.14;
+  --text-heading-sm--letter-spacing: -0.012em;
+
+  /* 27 -> 31.5. Get-involved claim only. */
+  --text-closing: clamp(1.6875rem, 0.5vw + 1.57rem, 1.969rem);
+  --text-closing--line-height: 1.1;
+  --text-closing--letter-spacing: -0.014em;
+
+  /* 36 -> 48. One hero claim per page. */
+  --text-display: clamp(2.25rem, 1.33vw + 1.94rem, 3rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.028em;
+  --text-display--font-weight: 700;
+
+  /* 42 -> 64. The homepage claim only, set beside the atlas in a third of
+     the width, where the inner-page display size read as a caption. */
+  --text-hero: clamp(2.625rem, 2.4vw + 1.5rem, 4rem);
+  --text-hero--line-height: 0.98;
+  --text-hero--letter-spacing: -0.035em;
+  --text-hero--font-weight: 700;
+
+  --container-copy-narrow: 620px;
+  --container-copy: 720px;
+  --container-copy-wide: 760px;
+
+  --animate-fade-in: fadeIn 0.6s ease-out forwards;
+  --animate-slide-up: slideUp 0.6s ease-out forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes slideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Dark theme.
+
+   The same roles, re-pointed for a night page. Ink turns to chalk, the page
+   takes the brand navy itself, paper lifts one step above it, and the inverse
+   band sinks one step below, so a band that was heavier than the page by day
+   is still the heaviest thing on it at night. Orange does not move: it is the
+   identity of joining in either light. Orange as a letterform brightens,
+   because #C13F10 on navy fails where #FF8A5B clears AA.
+
+   The theme is chosen by `data-theme` on <html> (set before first paint by
+   the script in layout.tsx, from the reader's choice or their system). The
+   media query is the no-script fallback: it follows the system unless the
+   page has been told "light" outright.
+----------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-navy: #f1eee8;
+  --color-page: #021c4d;
+  --color-cream: #082656;
+  --color-inverse: #01112f;
+  --color-deep: #010c24;
+  --color-on-ink: #021c4d;
+  --color-orange-ink: #ff8a5b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --color-navy: #f1eee8;
+    --color-page: #021c4d;
+    --color-cream: #082656;
+    --color-inverse: #01112f;
+    --color-deep: #010c24;
+    --color-on-ink: #021c4d;
+    --color-orange-ink: #ff8a5b;
+  }
+}
+
+/* Artwork drawn for one ground ships twice; the theme shows one of them. */
+:root[data-theme='dark'] .only-light,
+:root:not([data-theme='dark']) .only-dark {
+  display: none !important;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-navy);
+    border-style: solid;
+  }
+
+  /* `clip`, not `hidden`. `overflow-x: hidden` forces the browser to compute
+     `overflow-y: auto` on the same element, which makes <html> a scroll
+     container and stops the sticky header from sticking. `clip` trims the same
+     horizontal overflow without creating a scrollport. */
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  body {
+    background: var(--color-page);
+    color: var(--color-navy);
+    font-family: var(--font-sans);
+    font-synthesis: none;
+    overflow-x: clip;
+  }
+
+  /* Balance short titles; keep prose naturally ragged without trailing orphans.
+     Tailwind text-wrap utilities can override these defaults for long-form copy. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  figcaption,
+  blockquote {
+    text-wrap: pretty;
+  }
+
+  /* Square is the default. A pill button is a category error. */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    border-radius: 0;
+  }
+
+  /* Anything that responds to a click says so under the pointer. Tailwind v4's
+     preflight follows the browser and leaves <button> on the arrow, which reads
+     as dead text on a flat design like this one — so the pointer is restored
+     here, once, for every control rather than per component. `a` without an
+     href is an anchor target, not a link, hence `a[href]`. */
+  a[href],
+  button,
+  summary,
+  label[for],
+  select,
+  input[type='checkbox'],
+  input[type='radio'],
+  input[type='submit'],
+  input[type='button'],
+  input[type='file']::file-selector-button,
+  [role='button'],
+  [role='tab'],
+  [role='option'] {
+    cursor: pointer;
+  }
+
+  /* A control that cannot act should not invite the click. */
+  button:disabled,
+  select:disabled,
+  input:disabled,
+  [aria-disabled='true'] {
+    cursor: default;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-navy);
+    outline-offset: 3px;
+  }
+
+  .bg-inverse :focus-visible,
+  .bg-deep :focus-visible,
+  .bg-orange :focus-visible {
+    outline-color: #ffffff;
+  }
+
+  ::selection {
+    background-color: var(--color-orange);
+    color: #ffffff;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Shared primitives
+----------------------------------------------------------------------------- */
+
+/* Page gutter: 24px on small screens, 48px from md up, inside a 1440 canvas. */
+@utility shell {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  box-sizing: border-box;
+
+  @media (width >= 768px) {
+    padding-inline: 48px;
+  }
+}
+
+/* Band padding. design.md keeps these uneven on purpose ("Do not normalise
+   these to one stack gap"), so each band carries its own ramp rather than a
+   shared spacing step. The maximum is the figure from the table in design.md,
+   measured on the 1440 canvas; the minimum is what that becomes on a 375px
+   phone, where 88px of air between sections is most of a screen. */
+@utility band-hero {
+  padding-block: clamp(3.5rem, 3.09vw + 2.78rem, 5.25rem)
+    clamp(3rem, 3.09vw + 2.28rem, 4.75rem);
+}
+@utility band-index {
+  padding-block: clamp(2rem, 1.55vw + 1.64rem, 2.875rem);
+}
+@utility band-section {
+  padding-block: clamp(3.5rem, 3.54vw + 2.67rem, 5.5rem);
+}
+@utility band-section-top {
+  padding-block-start: clamp(3.5rem, 3.54vw + 2.67rem, 5.5rem);
+}
+@utility band-community {
+  padding-block: clamp(3rem, 2.65vw + 2.38rem, 4.5rem);
+}
+@utility band-research {
+  padding-block: clamp(4rem, 5.3vw + 2.76rem, 7rem);
+}
+@utility band-close {
+  padding-block: clamp(3rem, 2.65vw + 2.38rem, 4.5rem);
+}
+
+/* A photo strip pushed with a thumb. The next print showing past the edge is
+   the affordance; a scrollbar laid over the paper is not. `contain` keeps a
+   sideways flick inside the strip rather than handing it to the browser's
+   back gesture. */
+@utility scroll-strip {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* The Square Kicker Rule: Poppins italic, never tracked, never uppercase.
+   League Spartan has no italic, so the kicker moves to the body family. */
+@utility kicker {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Section turns. 32/38px, one Display per page (the hero h1). */
+@utility sain-heading {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+
+  @media (width >= 768px) {
+    font-size: 38px;
+    line-height: 43px;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Eyebrow. The tracked orange line over a claim in the new hero and the
+   impact band. It is a label for a band, not a sentence: keep it to a few
+   words, and keep the italic kicker for anything longer.
+----------------------------------------------------------------------------- */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-orange-ink);
+}
+
+/* -----------------------------------------------------------------------------
+   Buttons. Poppins. No shadow. A 4px corner: square enough to read as print,
+   soft enough to read as something you can press.
+----------------------------------------------------------------------------- */
+
+/* Orange is the identity of joining. Never invert it to navy on hover.
+
+   The label is white. That is a deliberate brand call, not an oversight: white
+   on #FF6025 is 3.02:1, which clears AA only at large-text sizes, so keep an
+   eye on any small type placed on an orange ground. */
+@utility btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-orange);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 14px 24px;
+  border-radius: 4px;
+  transition: background-color 200ms ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-orange-hover);
+  }
+}
+
+/* Ink is whatever the page writes in: navy by day, chalk by night, with the
+   label in the reverse. */
+@utility btn-ink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-navy);
+  color: var(--color-on-ink);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 18px;
+  padding: 11px 18px;
+  border-radius: 4px;
+  transition: background-color 200ms ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-orange);
+    color: #ffffff;
+  }
+}
+
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-navy);
+  border: 1px solid color-mix(in oklab, var(--color-navy) 24%, transparent);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 18px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-navy);
+    border-color: var(--color-navy);
+    color: var(--color-on-ink);
+  }
+}
+
+@utility btn-outline-ink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-navy);
+  border: 1.5px solid var(--color-navy);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 13px 20px;
+  border-radius: 4px;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-navy);
+    color: var(--color-on-ink);
+  }
+}
+
+@utility btn-ghost-inverse {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgb(255 255 255 / 32%);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 14px 22px;
+  border-radius: 4px;
+  transition: border-color 200ms ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: #ffffff;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Publication chip. Navy ink on paper.
+----------------------------------------------------------------------------- */
+
+@utility pub-chip {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 12px;
+  padding: 14px 18px;
+  /* Paper chips on the white sheet. The old translucent white only read as a
+     fill over the cream ground; on white it left the chip border-only. */
+  background: var(--color-cream);
+  border: 1px solid color-mix(in oklab, var(--color-navy) 16%, transparent);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 200ms ease;
+
+  &:hover,
+  &:focus-visible {
+    background: color-mix(in oklab, var(--color-navy) 7%, transparent);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Reveal. The hidden state lives here rather than in the component's initial
+   props, so the prerendered page is the visible one. The hero runs from CSS,
+   which needs no script; the rest is armed by Reveal once it is running, and
+   only for blocks still below the fold.
+
+   `both` matters under reduced motion: the block above collapses every
+   animation to 0.01ms, so a fill-mode of `both` lands the element on its end
+   state immediately instead of leaving it at opacity 0.
+----------------------------------------------------------------------------- */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-hero,
+.reveal-in {
+  animation: reveal-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reveal-armed {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Legacy utilities. Pages not yet redesigned still compile against these, so
+   they are kept — but restyled toward the brand (serif at 400, square corners,
+   no shadow) so the site reads as one system while the rest is ported over.
+----------------------------------------------------------------------------- */
+
+@utility section-container {
+  @apply max-w-7xl mx-auto px-6 lg:px-12;
+}
+
+@utility section-padding {
+  @apply py-20 md:py-28;
+}
+
+@utility heading-xl {
+  @apply font-serif font-semibold text-4xl md:text-5xl lg:text-[46px] lg:leading-[52px];
+  letter-spacing: -0.015em;
+}
+
+@utility heading-lg {
+  @apply font-serif font-semibold text-[32px] leading-[1.15] md:text-[38px] md:leading-[43px];
+  letter-spacing: -0.012em;
+}
+
+@utility heading-md {
+  @apply font-serif font-medium text-2xl md:text-[28px] md:leading-[34px];
+  letter-spacing: -0.01em;
+}
+
+@utility btn-primary {
+  @apply btn-accent;
+}
+
+@utility btn-secondary {
+  @apply btn-ghost-inverse;
+}
+
+@utility btn-outline {
+  @apply btn-outline-ink;
+}
+
+@utility card {
+  @apply bg-page border border-navy/10;
+}
+
+@utility gradient-text {
+  @apply text-orange;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.012em;
+  }
+
+  /* League Spartan reads thin at 400, so heading-family text defaults to
+     medium. In the base layer, so an explicit weight utility still wins. */
+  .font-serif {
+    font-weight: 500;
+  }
+}
+
+/* The strip's arrows, for the screens that have no thumb to push it with.
+
+   A phone or a tablet already has the gesture, and a chip parked over the
+   first print would only take a photograph away from it -- so the arrows are
+   gated on a fine pointer rather than on width. Above xl there is no strip
+   left to steer, only the scatter, so they stop there too.
+
+   Faint at rest is the whole point: the prints are the argument this band
+   makes, and a control at full strength on top of one competes with it.
+   Hover and focus bring it up to full, deepen the shadow to the prints' own,
+   and lean it along the axis of travel. */
+.strip-arrow {
+  display: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* Spelled max-width rather than `width < 1280px`: the range form lowers to
+   `not (min-width: ...)`, which a Safari older than 16.4 drops whole, taking
+   the two conditions that matter with it. */
+@media (hover: hover) and (pointer: fine) and (max-width: 1279.98px) {
+  .strip-arrow { display: grid; }
+}
+/* For a strip that stays a strip at xl too (the landing gallery). */
+@media (hover: hover) and (pointer: fine) {
+  .strip-arrow-always { display: grid; }
+}
+
+/* Motion feedback: keep movement local and preserve the surrounding layout. */
+.community-print img {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-accent, .btn-ink, .btn-ghost, .btn-ghost-inverse {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .community-print:hover img { transform: scale(1.06); }
+  .btn-accent:hover, .btn-ink:hover, .btn-ghost:hover, .btn-ghost-inverse:hover {
+    transform: translateY(-2px);
+  }
+}
+/* Outside the pointer query on purpose: a keyboard is not a fine pointer, and
+   the lift is half of what tells you a button is the one you are on. The ring
+   stays either way -- a 2px shift is not a focus indicator by itself. */
+.btn-accent:focus-visible,
+.btn-ink:focus-visible,
+.btn-ghost:focus-visible,
+.btn-ghost-inverse:focus-visible {
+  transform: translateY(-2px);
+}
+.btn-accent:active, .btn-ink:active, .btn-ghost:active, .btn-ghost-inverse:active {
+  transform: scale(0.98);
+}
+/* Local chapters. The photograph each chapter page opens with is behind its
+   cell at all times, faint enough that the band still reads as an index, and
+   hover or keyboard focus brings it up to full under a navy wash.
+
+   Both states are one device: the image is masked to fade in from the left,
+   so the name and the link sit on clean cream at rest and on flat navy on
+   hover, whatever the crop happens to hold. That also evens out three very
+   different photographs -- a tower against open sky next to a dense row of
+   facades -- which at a flat opacity made the three cells read as unequal.
+
+   The name and the link flip to cream with the wash. They have to: once the
+   navy is up, navy on navy is the one pairing on this page that cannot be
+   read. Cream on navy/78 over a photograph clears AA at both sizes.
+
+   The fade is gated on a fine pointer for the same reason the strip arrows
+   are: a tap has no hover to hand back. Focus-within sits outside that query
+   on purpose, because a keyboard is not a fine pointer and the reveal is how
+   a tabbing reader sees which chapter they are on. */
+.chapter-cell-photo {
+  opacity: 0.3;
+  mask-image: linear-gradient(to right, transparent 18%, #000 85%);
+  -webkit-mask-image: linear-gradient(to right, transparent 18%, #000 85%);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chapter-cell-scrim {
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chapter-cell h3,
+.chapter-cell p,
+.chapter-cell a {
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    text-decoration-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .chapter-cell:hover .chapter-cell-photo { opacity: 1; }
+  .chapter-cell:hover .chapter-cell-scrim { opacity: 0.78; }
+  .chapter-cell:hover h3,
+  .chapter-cell:hover p { color: var(--color-chalk); }
+  .chapter-cell:hover a {
+    color: var(--color-chalk);
+    text-decoration-color: color-mix(in srgb, var(--color-chalk) 45%, transparent);
+  }
+  .chapter-cell:hover a:hover { text-decoration-color: var(--color-chalk); }
+}
+.chapter-cell:focus-within .chapter-cell-photo { opacity: 1; }
+.chapter-cell:focus-within .chapter-cell-scrim { opacity: 0.78; }
+.chapter-cell:focus-within h3,
+.chapter-cell:focus-within p { color: var(--color-chalk); }
+.chapter-cell:focus-within a {
+  color: var(--color-chalk);
+  text-decoration-color: var(--color-chalk);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  /* The chapter photo still comes up, it just stops fading. */
+  .chapter-cell-photo,
+  .chapter-cell-scrim,
+  .chapter-cell h3,
+  .chapter-cell p,
+  .chapter-cell a { transition: none; }
+  .community-print:hover img,
+  .strip-arrow:hover, .strip-arrow:focus-visible,
+  .btn-accent:hover, .btn-ink:hover, .btn-ghost:hover, .btn-ghost-inverse:hover,
+  .btn-accent:focus-visible, .btn-ink:focus-visible,
+  .btn-ghost:focus-visible, .btn-ghost-inverse:focus-visible,
+  .btn-accent:active, .btn-ink:active, .btn-ghost:active, .btn-ghost-inverse:active {
+    transform: none;
+  }
+}
+
+/* Larger landing CTAs: real padding and type, so hit areas grow with the label.
+
+   These four rules sit outside every cascade layer, and unlayered declarations
+   beat layered ones whatever their specificity -- so inside #main they win over
+   any Tailwind padding or size utility, which all live in @layer utilities.
+   Writing `px-5 py-[13px] text-sm` on a btn-* here does nothing; four call
+   sites were carrying classes that had never applied. Size a landing button by
+   editing these rules, not by adding a utility that will be silently dropped.
+   Note the header sits outside #main and is deliberately unaffected. */
+#main :is(.btn-accent, .btn-ink, .btn-ghost, .btn-outline-ink, .btn-ghost-inverse) {
+  font-size: 16.1px;
+  line-height: 23px;
+  padding: 15px 23px;
+}
+#main .btn-accent {
+  font-size: 16.675px;
+  padding: 16.1px 27.6px;
+}
+
+/* Below 384px the longest label ("Start with a free course") is wide enough
+   at the size above to wrap to two lines inside the button. Give back the
+   padding the override added rather than let the label break. */
+@media (width < 24rem) {
+  #main :is(.btn-accent, .btn-ink, .btn-ghost, .btn-outline-ink, .btn-ghost-inverse) {
+    font-size: 15px;
+    padding: 14px 17px;
+  }
+  #main .btn-accent {
+    font-size: 15.2px;
+    padding: 15px 19px;
+  }
+}
+
+.research-publications .pub-chip {
+  background: rgb(255 255 255 / 4%);
+  border-color: rgb(255 255 255 / 18%);
+}
+.research-publications .pub-chip:hover,
+.research-publications .pub-chip:focus-visible { background: rgb(255 255 255 / 9%); }
+
+/* -----------------------------------------------------------------------------
+   The homepage atlas (src/components/atlas). The hero is navy in both themes,
+   so these colours are fixed rather than theme roles: a night sky does not
+   change with the reader's preference.
+
+   Everything here that moves has one job each: routes flow toward the place
+   they serve, the chapters breathe, the sea swells, the wind blows. `.is-still`
+   (reduced motion, or the hero off screen) stops all of it.
+----------------------------------------------------------------------------- */
+@keyframes atlas-flow {
+  to {
+    stroke-dashoffset: -0.82;
+  }
+}
+@keyframes atlas-flow-px {
+  to {
+    stroke-dashoffset: -285;
+  }
+}
+@keyframes atlas-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.32;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+@keyframes atlas-swell {
+  to {
+    transform: translateX(-120px);
+  }
+}
+@keyframes atlas-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes atlas-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.atlas-flow {
+  animation: atlas-flow 5.5s linear infinite;
+}
+.atlas-flow-px {
+  animation: atlas-flow-px 9s linear infinite;
+}
+.atlas-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: atlas-pulse 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+.atlas-swell {
+  animation: atlas-swell 18s linear infinite;
+}
+.atlas-swell--slow {
+  animation-duration: 31s;
+  animation-direction: reverse;
+}
+.atlas-fade-in,
+.atlas-link-in {
+  animation: atlas-fade-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.is-still .atlas-flow,
+.is-still .atlas-flow-px,
+.is-still .atlas-pulse,
+.is-still .atlas-swell {
+  animation-play-state: paused;
+}
+
+.atlas-geo-labels text {
+  fill: #8db3d6;
+  fill-opacity: 0.42;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-anchor: middle;
+}
+.atlas-geo-labels .atlas-sea-label {
+  font-size: 15px;
+  font-style: italic;
+  letter-spacing: 0.42em;
+  fill-opacity: 0.5;
+}
+.atlas-geo-labels .atlas-lake-label {
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  font-style: italic;
+  fill-opacity: 0.55;
+}
+.atlas-city circle {
+  fill: #a8c4dd;
+  fill-opacity: 0.55;
+}
+.atlas-city text {
+  fill: #c5d6e8;
+  fill-opacity: 0.5;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 11px;
+}
+.atlas-label {
+  fill: #f2f6fb;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  paint-order: stroke;
+  stroke: #04214d;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.atlas-label--chapter {
+  font-family: var(--font-league-spartan), sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  stroke-width: 5px;
+}
+.atlas-label--note {
+  font-size: 11.5px;
+  font-weight: 500;
+  fill: #ffb48a;
+}
+.atlas-network-label text {
+  fill: #ffffff;
+  fill-opacity: 0.55;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  paint-order: stroke;
+  stroke: #0a3462;
+  stroke-width: 4px;
+}
+.atlas-abroad-label {
+  fill: #ffb48a;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  paint-order: stroke;
+  stroke: #072a57;
+  stroke-width: 4px;
+}
+.atlas-node {
+  outline: none;
+}
+.is-exploring .atlas-node {
+  cursor: pointer;
+}
+.is-exploring .atlas-node:hover .atlas-label,
+.atlas-node:focus-visible .atlas-label {
+  fill: #ffd6bd;
+}
+.atlas-node:focus-visible > circle:nth-of-type(2) {
+  stroke: #ffffff;
+  stroke-width: 3px;
+}
+.atlas-map.is-exploring {
+  cursor: grab;
+  touch-action: none;
+}
+.atlas-map.is-exploring:active {
+  cursor: grabbing;
+}
+.atlas-map:focus-visible {
+  outline: 2px solid #ffb48a;
+  outline-offset: -4px;
+}
+
+.atlas-tool {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  border: 1px solid rgb(255 255 255 / 20%);
+  background: rgb(3 24 60 / 82%);
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+.atlas-tool:hover,
+.atlas-tool:focus-visible {
+  border-color: #ff9a68;
+  background: rgb(10 42 90 / 92%);
+}
+.atlas-tool--small {
+  width: 34px;
+  height: 34px;
+}
+.atlas-tool--wide {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.atlas-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgb(3 24 60 / 88%);
+  border: 1px solid rgb(255 255 255 / 14%);
+  color: #ffffff;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+.atlas-hint.is-shown {
+  opacity: 1;
+}
+.atlas-card,
+.atlas-detail,
+.atlas-legend {
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 14px;
+  background: linear-gradient(150deg, rgb(10 42 90 / 92%), rgb(3 24 60 / 94%));
+  box-shadow: 0 18px 50px rgb(0 8 30 / 45%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #ffffff;
+}
+.atlas-card {
+  padding: 20px 20px 14px;
+}
+.atlas-detail {
+  padding: 16px 18px 14px;
+  animation: atlas-fade-in 0.3s ease both;
+}
+.atlas-legend {
+  padding: 12px 14px;
+}
+.atlas-hero :focus-visible {
+  outline-color: #ffb48a;
+}
+@media (prefers-reduced-motion: reduce) {
+  .atlas-flow,
+  .atlas-flow-px,
+  .atlas-pulse,
+  .atlas-swell {
+    animation: none;
+  }
+}
+
+/* The hero's one decision, a size above the landing's other accent buttons.
+   Unlayered and after the #main rules above, so it wins over them. */
+#main .btn-hero {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 500;
+  padding: 18px 26px 18px 30px;
+}
+@media (width < 24rem) {
+  #main .btn-hero {
+    font-size: 16.5px;
+    padding: 16px 20px;
+  }
+}
+
+/* Partner logos drawn in navy ink: by night they turn to chalk, one colour,
+   as a printed credit line would. */
+:root[data-theme='dark'] .logo-ink {
+  filter: brightness(0) invert(0.93);
+}

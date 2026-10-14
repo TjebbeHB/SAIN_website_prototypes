@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 190" fill="none">
+  <!-- Selective activation leaves an intelligible route through a network. -->
+  <g stroke="#021c4d" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M56 158 Q174 156 306 159" opacity=".2"/>
+    <path d="M71 47 L261 39 L266 136 L77 145 Z" fill="#f7f5f2"/>
+    <path d="M87 33 L279 35 L275 137 L86 133 Z" fill="#f7f5f2"/>
+    <path d="M157 137 L154 154 M206 137 L209 155 M134 156 Q182 153 230 156"/>
+    <g opacity=".2">
+      <path d="M112 61 L155 58 L199 60 L251 63 M112 106 L155 104 L199 109 L251 106 M112 61 L155 104 L199 60 L251 106 M112 106 L155 58 L199 109 L251 63"/>
+      <circle cx="112" cy="61" r="6"/><circle cx="155" cy="104" r="6"/>
+      <circle cx="199" cy="60" r="6"/><circle cx="251" cy="106" r="6"/>
+    </g>
+    <path d="M112 106 L155 58 L199 109 L251 63" stroke="#ff6025"/>
+    <circle cx="112" cy="106" r="7" fill="#f7f5f2"/>
+    <circle cx="155" cy="58" r="7" fill="#ff6025" stroke="#ff6025"/>
+    <circle cx="199" cy="109" r="7" fill="#ff6025" stroke="#ff6025"/>
+    <circle cx="251" cy="63" r="7" fill="#f7f5f2"/>
+    <path d="M288 96 Q301 97 302 110 L302 138 Q302 150 291 150 Q281 150 281 138 L281 111 Q281 98 288 96Z" fill="#f7f5f2"/>
+    <path d="M291 104 L291 115" stroke="#ff6025"/>
+    <path d="M292 96 Q306 78 288 66" opacity=".4"/>
+  </g>
+</svg>
