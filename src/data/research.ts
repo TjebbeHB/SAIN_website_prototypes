@@ -1,5 +1,5 @@
 /**
- * Research Hub facts: what has been published, and who supervises.
+ * Project Hub facts: what has been published, and who supervises.
  *
  * Shared by the landing page (the inverse "Already in the literature" band and
  * the supervisor list) and /research, so a new paper or a new supervisor is

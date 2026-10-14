@@ -43,8 +43,8 @@ const paths: Path[] = [
     id: "project",
     situation: "I have done a course and want to work on something real.",
     title: "Choose a research project",
-    body: "Join a project or bring your own question, including a thesis. The Research Hub matches you with a supervisor and helps with compute.",
-    cta: "Visit the Research hub",
+    body: "Join a project or bring your own question, including a thesis. The Project Hub matches you with a supervisor and helps with compute.",
+    cta: "Visit the Project hub",
     href: "/research",
   },
   {

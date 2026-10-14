@@ -12,7 +12,7 @@ export const COMMUNITY_JOIN_URL = "https://sainonboard.fillout.com/new";
  * or its embed link; the dialog embeds it either way.
  *
  * Left empty, the dialog asks the same three-way question itself and links
- * straight to the courses, the Research hub and the supervisor form.
+ * straight to the courses, the Project hub and the supervisor form.
  */
 export const PATHFINDER_FORM_URL = "";
 
@@ -35,7 +35,7 @@ export const nationalContacts: NationalContact[] = [
   },
   {
     label: "Research",
-    detail: "Research Hub, supervisors, and collaborations",
+    detail: "Project Hub, supervisors, and collaborations",
     email: "research@safeainetherlands.org",
   },
   {

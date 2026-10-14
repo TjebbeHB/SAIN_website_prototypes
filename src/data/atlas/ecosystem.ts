@@ -147,7 +147,7 @@ export const ecoNodes: EcoNode[] = [
     offset: [-78, -28],
     labelSide: "left",
     description:
-      "SAIN Amsterdam draws members from the UvA, and a UvA assistant professor supervises in the SAIN Research Hub. The courses are run independently of the university.",
+      "SAIN Amsterdam draws members from the UvA, and a UvA assistant professor supervises in the SAIN Project Hub. The courses are run independently of the university.",
     href: "https://www.uva.nl/",
     source: "/chapters/amsterdam; src/data/research.ts (supervisors)",
   },
@@ -161,7 +161,7 @@ export const ecoNodes: EcoNode[] = [
     offset: [-74, 22],
     labelSide: "left",
     description:
-      "SAIN Amsterdam draws members from VU Amsterdam, and a VU PhD researcher supervises in the SAIN Research Hub. VU security researchers also signed the 2026 open letter on containing cyber-capable AI. The courses are run independently of the university.",
+      "SAIN Amsterdam draws members from VU Amsterdam, and a VU PhD researcher supervises in the SAIN Project Hub. VU security researchers also signed the 2026 open letter on containing cyber-capable AI. The courses are run independently of the university.",
     href: "https://vu.nl/",
     source: "/chapters/amsterdam; src/data/research.ts (supervisors)",
   },
@@ -201,7 +201,7 @@ export const ecoNodes: EcoNode[] = [
     offset: [-10, 54],
     labelSide: "left",
     description:
-      "Two University of Groningen researchers supervise in the SAIN Research Hub. SAIN Groningen's course is run independently of the university.",
+      "Two University of Groningen researchers supervise in the SAIN Project Hub. SAIN Groningen's course is run independently of the university.",
     href: "https://www.rug.nl/",
     source: "src/data/research.ts (supervisors); /chapters/groningen",
   },
@@ -481,7 +481,7 @@ export const abroadNodes: AbroadNode[] = [
     kind: "research",
     city: "Potsdam",
     coordinates: [13.06566, 52.39886],
-    description: "A senior scientist here supervises in the SAIN Research Hub.",
+    description: "A senior scientist here supervises in the SAIN Project Hub.",
     href: "https://www.pik-potsdam.de/",
     source: "src/data/research.ts (supervisors)",
   },
@@ -540,21 +540,21 @@ export const ecoLinks: EcoLink[] = [
     from: "uva",
     to: "sain-amsterdam",
     strength: "shared",
-    label: "Members and a Research Hub supervisor",
+    label: "Members and a Project Hub supervisor",
     source: "/chapters/amsterdam; src/data/research.ts",
   },
   {
     from: "vu",
     to: "sain-amsterdam",
     strength: "shared",
-    label: "Members and a Research Hub supervisor",
+    label: "Members and a Project Hub supervisor",
     source: "/chapters/amsterdam; src/data/research.ts",
   },
   {
     from: "rug",
     to: "sain-groningen",
     strength: "shared",
-    label: "Two Research Hub supervisors",
+    label: "Two Project Hub supervisors",
     source: "src/data/research.ts",
   },
   {
@@ -623,7 +623,7 @@ ecoLinks.push(
   { from: "oxford", to: NETWORK_ID, strength: "shared", label: "An advisory board member", source: "/about" },
   { from: "cesia", to: NETWORK_ID, strength: "shared", label: "An advisory board member", source: "/about" },
   { from: "ceps", to: NETWORK_ID, strength: "shared", label: "An advisory board member", source: "/about" },
-  { from: "pik", to: NETWORK_ID, strength: "shared", label: "A Research Hub supervisor", source: "src/data/research.ts" },
+  { from: "pik", to: NETWORK_ID, strength: "shared", label: "A Project Hub supervisor", source: "src/data/research.ts" },
   /* Where SAIN is heading: the story's look ahead only. */
   {
     from: "rails",

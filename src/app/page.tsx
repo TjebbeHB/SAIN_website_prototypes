@@ -285,10 +285,10 @@ export default function Home() {
         <div className="shell band-research">
           <Reveal className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,300px)] lg:gap-12 xl:grid-cols-[minmax(0,650px)_minmax(0,1fr)] xl:gap-24">
             <div className="flex flex-col items-start gap-6">
-              <h2 id="research-heading" className="max-w-[560px] font-serif text-heading">The SAIN Research Hub</h2>
+              <h2 id="research-heading" className="max-w-[560px] font-serif text-heading">The SAIN Project Hub</h2>
               <p className="max-w-[590px] text-body text-white/75">Bring your academic expertise to AI Safety. Connect with researchers, develop a focused project, and take your work further with support from SAIN.</p>
               <Link href="/research" className="inline-flex items-center gap-3 text-label leading-6 text-white/80 underline decoration-white/35 underline-offset-4 hover:text-white focus-visible:text-white">
-                Visit the Research hub <ArrowRight size={16} aria-hidden="true" />
+                Visit the Project hub <ArrowRight size={16} aria-hidden="true" />
               </Link>
             </div>
             <ResearchIllustration />
@@ -312,10 +312,10 @@ export default function Home() {
               Apply any time. Determine your commitment per project. Remote participation is welcome.
             </p>
             {/* One label per destination: the three chapter pages and the band
-                opener above all call /research "Visit the Research hub", so the
+                opener above all call /research "Visit the Project hub", so the
                 closing ask is the same door, not a second one. */}
             <Link href="/research" className="btn-accent shrink-0 self-start md:self-auto">
-              Visit the Research hub
+              Visit the Project hub
             </Link>
           </Reveal>
         </div>

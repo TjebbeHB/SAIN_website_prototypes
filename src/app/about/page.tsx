@@ -113,7 +113,7 @@ const record = [
   {
     year: "2025",
     title: "Research at top venues.",
-    line: "Publications at NeurIPS and ICLR; the Research Hub launches, matching emerging researchers with PhD-level supervisors.",
+    line: "Publications at NeurIPS and ICLR; the Project Hub launches, matching emerging researchers with PhD-level supervisors.",
   },
   {
     year: "2026",
@@ -247,7 +247,7 @@ export default function AboutPage() {
                 The Funnel Diagram is the whole organisation. The wide end is a free
                 course anyone can join, no technical background required. The narrow end is
                 full-time work on AI safety, in policy, research, industry or civil society. Between
-                them sit the community, the Research Hub, and fellowships. Progress through it is
+                them sit the community, the Project Hub, and fellowships. Progress through it is
                 visible, to us and to the person making it, and SAIN&rsquo;s job is to make each
                 next step reachable, so that every step someone takes compounds into a more
                 effective mission.
@@ -498,7 +498,7 @@ export default function AboutPage() {
             {/* "Join the community" is reserved site-wide for the onboarding
                 form (COMMUNITY_JOIN_URL). This goes to the community page, so
                 it carries the page label, the way the chapter pages say
-                "Visit the Research hub". */}
+                "Visit the Project hub". */}
             <Link href="/community" className="btn-accent">
               Visit the community
             </Link>

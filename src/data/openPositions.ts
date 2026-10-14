@@ -279,7 +279,7 @@ export const ROLES: Record<string, Role> = {
       "Document key points, arguments, disagreements, and open questions in the group's shared session document.",
       "Manage the group's communication platform: keep it on-topic, send reminder posters 2 days before each session, nudge less active participants supportively.",
       "At the start of each block, run the sign-up form, prune inactive members, and refresh the group with new participants.",
-      "Surface participants who want to go deeper to the Education Lead, the Research Hub, or Substack opportunities.",
+      "Surface participants who want to go deeper to the Education Lead, the Project Hub, or Substack opportunities.",
     ],
     preferredBackground: {
       field:
@@ -608,14 +608,14 @@ export const ROLES: Record<string, Role> = {
     timeCommitment:
       "Full-time (1.0 FTE), 40 hours per week, 5-day week",
     mission:
-      "Hundreds of people in the Netherlands finish an AI safety course each year, and almost none go on to do anything with it. The Research Hub exists to close that gap: it is where someone who has done a course or two makes their first real contribution, whether that is a paper, a policy submission, an eval, a tool, or a Dutch-language resource. You run both of its tracks, supervised projects and open collaboration, and you are accountable for how many reach a finished, valuable state. Today the Hub has a few supervisors, a few completed projects, and volunteer teams in three chapter cities. Your job is to make it flourish. As the fourth person on SAIN's national team, you own its strategy, budget, and volunteer teams. The work is project management and relationship-building: you do not need to be the smartest researcher in the room, you need to be the person who makes sure fifty projects actually get finished.",
+      "Hundreds of people in the Netherlands finish an AI safety course each year, and almost none go on to do anything with it. The Project Hub exists to close that gap: it is where someone who has done a course or two makes their first real contribution, whether that is a paper, a policy submission, an eval, a tool, or a Dutch-language resource. You run both of its tracks, supervised projects and open collaboration, and you are accountable for how many reach a finished, valuable state. Today the Hub has a few supervisors, a few completed projects, and volunteer teams in three chapter cities. Your job is to make it flourish. As the fourth person on SAIN's national team, you own its strategy, budget, and volunteer teams. The work is project management and relationship-building: you do not need to be the smartest researcher in the room, you need to be the person who makes sure fifty projects actually get finished.",
     responsibilities: [
-      "Set and hold the strategic direction of the Research Hub, together with leadership and the Advisory Board.",
+      "Set and hold the strategic direction of the Project Hub, together with leadership and the Advisory Board.",
       "Proactively recruit supervisors and source projects, across research, policy and technical work.",
       "Run the application process; match people to supervisors and projects.",
       "Monitor active projects and intervene when they stall.",
       "Recruit, onboard and manage the Research Operations teams in each chapter; maintain continuity across academic-year turnover.",
-      "Work with Communications to publish and promote the Hub's output; maintain the Research Hub Handbook; track and report Hub metrics.",
+      "Work with Communications to publish and promote the Hub's output; maintain the Project Hub Handbook; track and report Hub metrics.",
     ],
     goodFitIf: [
       "Have demonstrated experience managing a team, volunteers, or junior researchers.",
@@ -640,7 +640,7 @@ export const ROLES: Record<string, Role> = {
       benefits: [
         "8% holiday allowance",
         "Flexible additional leave",
-        "A budget for the Research Hub's operations",
+        "A budget for the Project Hub's operations",
       ],
     },
     applicationProcess: [
@@ -660,10 +660,10 @@ export const ROLES: Record<string, Role> = {
     timeCommitment:
       "2 hours per week in quiet times to 8 hours per week when many supervisors and researchers are onboarded",
     mission:
-      "Make the Research Hub run smoothly day-to-day. Handle operational logistics, onboard new researchers and supervisors, and shape the research direction with the Research Lead.",
+      "Make the Project Hub run smoothly day-to-day. Handle operational logistics, onboard new researchers and supervisors, and shape the research direction with the Research Lead.",
     responsibilities: [
-      "Decide the strategic direction of the Research Hub together with the Lead.",
-      "Track applicants and ongoing projects (the Research Hub interest tracker).",
+      "Decide the strategic direction of the Project Hub together with the Lead.",
+      "Track applicants and ongoing projects (the Project Hub interest tracker).",
       "Send check-in forms and follow up on open ones.",
       "Maintain Discord channels and the GitHub organisation.",
       "Keep the website's research section updated.",
@@ -695,11 +695,11 @@ export const ROLES: Record<string, Role> = {
     responsibilities: [
       "Plan and coordinate course iterations (Intro, Technical, Governance), including the Technical AI Safety program (e.g. ARENA 2-4) and the Agents + CyberSec, Biorisk, and Embodied AI Safety modules: schedules, cohort logistics, participant communication, and curriculum currency.",
       "Coordinate with Incubation Ops (Research Team) to turn strong course participants into projects in the pre-incubation stage: scope Forge proposals, match participants to project tracks and mentors, and hand projects over to Incubation Ops with a clear status summary.",
-      "Work with the Research Ops & Repository Steward to make sure Forge proposals and incubating projects get a technical assessment before they progress to the Research Hub, a Grant (Type 1/2), or an external mentor pipeline.",
+      "Work with the Research Ops & Repository Steward to make sure Forge proposals and incubating projects get a technical assessment before they progress to the Project Hub, a Grant (Type 1/2), or an external mentor pipeline.",
       "Find and maintain partnerships in the AI safety field (e.g. ARENA, Apart Research, SecureBio, Convergent Robotics, BlueDot Impact) that strengthen SAIN's courses, mentor network, and project pipeline.",
       "Find and maintain partnerships with institutions (UU departments, other universities, research groups, companies) for SAIN courses: guest lecturers, course recognition or credit, shared cohorts, and co-run programs. Hand leads to the Ambassador and Director where relevant.",
       "Recruit, train, and support facilitators and TAs, and run regular facilitator check-ins. Track cohort progress and flag participants ready for early hand-off.",
-      "Coordinate updates to course content with the Director, the Discussion Team, and SAIN Research Hub agenda topics.",
+      "Coordinate updates to course content with the Director, the Discussion Team, and SAIN Project Hub agenda topics.",
       "Coordinate with the Communications Lead on course marketing and with the Events Lead on hackathon and challenge design.",
       "Keep a steady weekly presence, not only on weekends: check the education inbox and facilitator channels on weekdays, answer participant and partner messages promptly, and keep pre-incubation and partnership threads moving with regular small actions. A few short check-ins during the week are worth more than one long weekend session.",
     ],
@@ -727,7 +727,7 @@ export const ROLES: Record<string, Role> = {
       "Build and look after SAIN Utrecht's technical backbone. Create and maintain the SAIN Repository, hold incubated code to a high engineering standard, and collaborate with external companies on projects. This role makes sure that what SAIN publishes, benchmarks, and demonstrates is reproducible and technically trustworthy.",
     responsibilities: [
       "Create and maintain the SAIN Repository: repo structure, contribution standards, PR review and approval, CI/testing hygiene, documentation, and reproducibility of benchmarks and demos.",
-      "Collaborate with the Education Lead and Incubation Ops to provide technical assessment of Forge proposals and incubating projects, and advise on which are ready to progress to the Research Hub, a Grant, or an external mentor pipeline.",
+      "Collaborate with the Education Lead and Incubation Ops to provide technical assessment of Forge proposals and incubating projects, and advise on which are ready to progress to the Project Hub, a Grant, or an external mentor pipeline.",
       "Collaborate with external companies on projects: scope joint work, keep technical deliverables on track, and act as the technical contact.",
       "Support course facilitators who own module repositories (e.g. Embodied AI Safety) by aligning their repos with SAIN-wide standards.",
       "Help design hands-on project tracks (agent security benchmarks, sandboxing, MCP/tool-ecosystem security, AI×Bio project ladder, embodied AI red-teaming), calibrated to participants' skill levels.",
@@ -771,7 +771,7 @@ export const ROLES: Record<string, Role> = {
       "Develop demos of risks for SAIN to show at events and courses (e.g. live model-behaviour demos, eval walkthroughs, \"how do we know if a model is dangerous?\" interactive exhibits). Coordinate with the Events Lead on format and with the Communications Lead on how demos are presented publicly.",
       "Keep demos responsible: they illustrate risk and evaluation methods without providing operational uplift or hazardous content, and sensitive demos get sign-off from the Education Lead or Director before public use.",
       "Review homework notebooks and project code, give direct technical feedback, and flag strong participants for the Forge/Incubation pipeline.",
-      "Keep the module current as evaluation methods, benchmarks, and model capabilities change, in coordination with the Education Lead and the SAIN Research Hub agenda.",
+      "Keep the module current as evaluation methods, benchmarks, and model capabilities change, in coordination with the Education Lead and the SAIN Project Hub agenda.",
       "Attend regular facilitator check-ins with the Education Lead and report on cohort progress and curriculum needs.",
       "Contribute throughout the week rather than only on weekends: short weekday check-ins on participant questions, cross-track coordination, and demo development.",
     ],
@@ -843,7 +843,7 @@ export const ROLES: Record<string, Role> = {
       "Read all assigned readings ahead of sessions (SecureBio biorisk evaluations, dual-use LLM risk literature, relevant governance material) and keep pace with fast-moving developments in this area.",
       "Run weekly sessions introducing AI×bio risk concepts at the appropriate level for each track: high-level risk-pathway framing for Intro, deeper technical and evaluation framing for Technical, and policy or governance framing for the Governance program.",
       "Guide participants toward safe, non-dangerous project formats from the AI×Bio project ladder (e.g. risk-landscape mapping, threat modeling, capability taxonomies, evaluation-benchmark design, governance gap analysis), strictly avoiding any project that could generate or require real operational biological uplift content.",
-      "Provide feedback on written project work (essays, threat models, policy papers) and flag strong candidates for the Research Hub or Governance E2I pipeline.",
+      "Provide feedback on written project work (essays, threat models, policy papers) and flag strong candidates for the Project Hub or Governance E2I pipeline.",
       "Coordinate with the Education Lead on maintaining curriculum accuracy as CBRN-related guidance and public research evolves.",
       "Attend regular facilitator check-ins with the Education Lead.",
     ],
@@ -1199,7 +1199,7 @@ export const isNationalRecruiting = openNationalPostings.length > 0;
 
 /**
  * Whether a specific national role is currently advertised. Used by
- * /research to decide whether to show its Research Hub hiring banner.
+ * /research to decide whether to show its Project Hub hiring banner.
  */
 export function isNationalRoleOpen(roleId: keyof typeof ROLES): boolean {
   return openNationalPostings.some((p) => p.roleId === roleId);

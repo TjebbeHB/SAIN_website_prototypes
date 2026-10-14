@@ -76,7 +76,7 @@ const prints: Print[] = [
   },
 ];
 
-/* The four papers this chapter's people are on, read out of the research hub's
+/* The four papers this chapter's people are on, read out of the project hub's
    own file rather than retyped here. Venue, title and author list therefore
    cannot drift from /research, and the venues keep the word "workshop" they
    carry at source: these are workshop papers, and a bare "NeurIPS 2025" reads
@@ -201,7 +201,7 @@ export default function GroningenPage() {
               href="/research"
               className="inline-flex items-center gap-2 font-sans text-label text-navy underline decoration-navy/25 underline-offset-4 hover:decoration-navy focus-visible:decoration-navy"
             >
-              Visit the Research hub
+              Visit the Project hub
               <ArrowRight size={16} weight="regular" aria-hidden="true" />
             </Link>
           </p>

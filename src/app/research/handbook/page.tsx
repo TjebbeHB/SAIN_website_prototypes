@@ -24,7 +24,7 @@ import {
 } from "@/data/research";
 
 export const metadata: Metadata = {
-  title: "Research Hub handbook",
+  title: "Project Hub handbook",
   description:
     "How research through SAIN works, from first application to published output: eligibility, time commitment, standards, and the escalation path.",
   alternates: { canonical: "/research/handbook" },
@@ -67,7 +67,7 @@ const PROJECT_ARCHIVE_URL = "/research#publications";
    ids are the page's stable deep links; the sticky rail at xl reads the same
    list. */
 const contents: TocItem[] = [
-  { id: "purpose", title: "What the Research Hub is for" },
+  { id: "purpose", title: "What the Project Hub is for" },
   { id: "before-you-apply", title: "Before you apply" },
   { id: "getting-started", title: "From application to running project" },
   { id: "during-the-project", title: "During the project" },
@@ -185,7 +185,7 @@ export default function ResearchHubHandbookPage() {
                 href="/research"
                 className="text-navy underline decoration-navy/25 underline-offset-4 hover:decoration-navy focus-visible:decoration-navy"
               >
-                Research hub
+                Project hub
               </Link>
               <span aria-hidden="true" className="px-2 text-navy/35">
                 /
@@ -193,12 +193,12 @@ export default function ResearchHubHandbookPage() {
               <span aria-current="page">Handbook</span>
             </nav>
 
-            <p className="kicker mt-6 text-kicker text-navy/60">Research Hub</p>
+            <p className="kicker mt-6 text-kicker text-navy/60">Project Hub</p>
             <h1
               id="handbook-heading"
               className="mt-3 font-serif text-display text-navy"
             >
-              The SAIN Research Hub handbook
+              The SAIN Project Hub handbook
             </h1>
             <p className="mt-5 max-w-copy font-sans text-body text-navy/72">
               How research through SAIN works, from first application to
@@ -294,12 +294,12 @@ export default function ResearchHubHandbookPage() {
               </Reveal>
 
               {/* 1 */}
-              <Chapter id="purpose" index={1} title="What the Research Hub is for">
+              <Chapter id="purpose" index={1} title="What the Project Hub is for">
                 <P>
                   SAIN exists to raise awareness of the full spectrum of
                   existing and potential harms from AI, contribute to shaping
                   mitigation priorities through ongoing discourse, and support
-                  the realisation of effective solutions. The Research Hub is
+                  the realisation of effective solutions. The Project Hub is
                   where that turns into research: a platform where supervisors,
                   collaborators, and students connect to advance AI safety work
                   on a global and interdisciplinary scale.
@@ -466,7 +466,7 @@ export default function ResearchHubHandbookPage() {
 
                 <Turn>Open collaborations begin with a research proposal</Turn>
                 <P>
-                  Before a project is approved as a Research Hub open
+                  Before a project is approved as a Project Hub open
                   collaboration, the researcher completes a research proposal.
                   The full structure below is only needed when the goal is a
                   full paper and collaboration; for other outputs, drop what you
@@ -476,7 +476,7 @@ export default function ResearchHubHandbookPage() {
                 <OutlineList items={proposalElements} />
                 <P>
                   SAIN&rsquo;s Research Team reviews the proposal and either
-                  approves it as a Research Hub project, with or without
+                  approves it as a Project Hub project, with or without
                   revisions, or declines it.
                 </P>
 
@@ -557,7 +557,7 @@ export default function ResearchHubHandbookPage() {
                         items={[
                           "Maintaining up-to-date documentation, including this handbook.",
                           "Onboarding new researchers and supervisors.",
-                          "Keeping track of Research Hub projects and outputs.",
+                          "Keeping track of Project Hub projects and outputs.",
                           <>
                             Acting as the contact point, via{" "}
                             <a
@@ -712,7 +712,7 @@ export default function ResearchHubHandbookPage() {
 
                 <Turn>Understanding matters more than publishing</Turn>
                 <P>
-                  The Research Hub should be a place where personal wellbeing is
+                  The Project Hub should be a place where personal wellbeing is
                   taken seriously and support is there for anyone who needs it.
                   AI safety research, like any research, can be intellectually
                   and emotionally demanding, especially under the
@@ -763,8 +763,8 @@ export default function ResearchHubHandbookPage() {
                   items={[
                     "Authorship should reflect substantial intellectual and implementation contributions.",
                     "Author order is handled internally within the project team.",
-                    "SAIN and the Research Hub should be acknowledged in publications.",
-                    "SAIN may promote your work as enabled by the Research Hub.",
+                    "SAIN and the Project Hub should be acknowledged in publications.",
+                    "SAIN may promote your work as enabled by the Project Hub.",
                   ]}
                 />
 
@@ -831,7 +831,7 @@ export default function ResearchHubHandbookPage() {
                     "Clarifying expectations and adjusting milestones.",
                     "Reassigning the supervisor or researcher to another project.",
                     "Re-scoping or pausing the project.",
-                    "Removal from the Research Hub, or from SAIN roles, in severe cases.",
+                    "Removal from the Project Hub, or from SAIN roles, in severe cases.",
                   ]}
                 />
 

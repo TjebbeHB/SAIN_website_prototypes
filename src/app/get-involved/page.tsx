@@ -66,7 +66,7 @@ const TEAMS = [
     name: "Research operations",
     icon: Flask,
     description:
-      "Keep the Research Hub running day to day. Onboard researchers and supervisors, track projects, and unblock problems.",
+      "Keep the Project Hub running day to day. Onboard researchers and supervisors, track projects, and unblock problems.",
     hours: "2 to 8 hours a week",
   },
 ];

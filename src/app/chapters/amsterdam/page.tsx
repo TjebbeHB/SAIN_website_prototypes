@@ -304,7 +304,7 @@ export default function AmsterdamPage() {
               href="/research"
               className="inline-flex items-center gap-2 self-start font-sans text-label text-navy underline decoration-navy/25 underline-offset-4 hover:decoration-navy focus-visible:decoration-navy"
             >
-              Visit the Research hub
+              Visit the Project hub
               <ArrowRight size={16} weight="regular" aria-hidden="true" />
             </Link>
           </>

@@ -8,6 +8,8 @@ import FittingTheCurve from "@/components/research/FittingTheCurve";
 import FeaturedPublications from "@/components/research/FeaturedPublications";
 import SectionOrbits from "@/components/research/SectionOrbits";
 import SupervisorRow from "@/components/research/SupervisorRow";
+import ProjectBrowser from "@/components/research/ProjectBrowser";
+import { PROJECTS_EMAIL, projects } from "@/data/projects";
 import {
   publications,
   supervisors,
@@ -17,13 +19,13 @@ import {
 } from "@/data/research";
 
 export const metadata: Metadata = {
-  title: "Research hub",
+  title: "Project hub",
   description:
-    "The SAIN Research Hub matches you with an experienced supervisor, arranges compute, and takes a project from open question to published finding. Voluntary, remote-friendly, and open for applications at any time.",
+    "The SAIN Project Hub matches you with an experienced supervisor, arranges compute, and takes a project from open question to published finding. Voluntary, remote-friendly, and open for applications at any time.",
 };
 
 const RESEARCHER_MAILTO = `mailto:${RESEARCH_EMAIL}?subject=${encodeURIComponent(
-  "Research Hub: joining as a researcher",
+  "Project Hub: joining as a researcher",
 )}`;
 
 /* Counted from the data file rather than typed. The old hero carried "6+ Active
@@ -32,8 +34,8 @@ const RESEARCHER_MAILTO = `mailto:${RESEARCH_EMAIL}?subject=${encodeURIComponent
    page lists. A number on this page has to be checkable by the reader, because
    the reader is the sort who checks. */
 const factLine = [
+  `${projects.filter((project) => project.open).length} open projects`,
   `${publications.length} publications`,
-  `${supervisors.length} supervisors`,
   "rolling applications",
 ];
 
@@ -41,8 +43,8 @@ const factLine = [
    the same way: no track is styled as the real one. */
 const projectRoutes = [
   {
-    lead: "Work from a supervisor's agenda.",
-    body: "Every SAIN supervisor keeps a public research agenda, a document of open questions they want help investigating. Read the agendas below and pick a question that fits your background.",
+    lead: "Join a supervisor's project.",
+    body: "Every project a SAIN supervisor has offered is listed at the top of this page. Find one that fits your background and tell the projects team you are interested; they introduce you to the supervisor.",
   },
   {
     lead: "Join an open collaboration.",
@@ -157,7 +159,7 @@ export default function ResearchPage() {
               Make a first real contribution to AI Safety research
             </h1>
             <p className="max-w-[620px] font-sans text-body text-navy/72">
-              The SAIN Research Hub matches you with an experienced supervisor, arranges compute,
+              The SAIN Project Hub matches you with an experienced supervisor, arranges compute,
               and takes a project from open question to published finding. It is voluntary,
               remote-friendly, and open for applications at any time.
             </p>
@@ -173,10 +175,10 @@ export default function ResearchPage() {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
               <Link
-                href="/research/handbook"
+                href="#projects"
                 className="inline-flex items-center gap-2 font-sans text-label text-navy underline decoration-navy/25 underline-offset-4 hover:decoration-navy focus-visible:decoration-navy"
               >
-                Read the research handbook
+                Browse open projects
                 <ArrowRight size={16} weight="regular" aria-hidden="true" />
               </Link>
             </div>
@@ -201,6 +203,26 @@ export default function ResearchPage() {
           <Reveal hero delay={0.08} className="flex min-w-0 items-center justify-center lg:justify-end">
             <FittingTheCurve />
           </Reveal>
+        </div>
+      </section>
+
+      {/* The projects themselves, straight after the claim: the reader came
+          to find one. Filter, search, open a card, and "I'm interested"
+          emails the projects team, who make the introduction. */}
+      <section id="projects" aria-labelledby="projects-heading" className="scroll-mt-28 border-t border-navy/10 bg-cream">
+        <div className="shell band-section flex flex-col gap-8">
+          <div className="flex max-w-[760px] flex-col gap-4">
+            <p className="eyebrow">Open projects</p>
+            <h2 id="projects-heading" className="font-serif text-heading text-navy">
+              Find a project, then join it
+            </h2>
+            <p className="font-sans text-body text-navy/74">
+              These are the projects SAIN supervisors have offered, in their own words. Open a card for
+              the detail, and if one fits, press &ldquo;I&rsquo;m interested&rdquo;: it starts an email to
+              the projects team at {PROJECTS_EMAIL}, who introduce you to the supervisor.
+            </p>
+          </div>
+          <ProjectBrowser />
         </div>
       </section>
 
