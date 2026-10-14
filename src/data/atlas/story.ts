@@ -63,7 +63,8 @@ export const storyPlayers: StoryPlayer[] = [
     id: "bluedot",
     name: "BlueDot Impact",
     place: "London",
-    coordinates: [-0.12574, 51.50853],
+    /* LISA, the London Initiative for Safe AI, Shoreditch. */
+    coordinates: [-0.0822, 51.5232],
     role: "SAIN Amsterdam facilitates its courses",
     to: "sain-amsterdam",
     kind: "curriculum",
@@ -74,7 +75,8 @@ export const storyPlayers: StoryPlayer[] = [
     id: "arena",
     name: "ARENA",
     place: "London",
-    coordinates: [-0.12574, 51.50853],
+    /* LISA, the London Initiative for Safe AI, Shoreditch. */
+    coordinates: [-0.0822, 51.5232],
     role: "SAIN Utrecht teaches its technical curriculum",
     to: "sain-utrecht",
     kind: "curriculum",

@@ -115,15 +115,6 @@ const KIND_FILL: Record<EcoNode["kind"], string> = {
 
 const WAVE_LENGTH = 120;
 
-/* Which side of its city a stack of organisations hangs on, zoomed out, so
-   London's list reaches into the Channel rather than across Oxford's. */
-const CITY_SIDE: Record<string, "left" | "right"> = {
-  London: "right",
-  Oxford: "left",
-  "Cambridge, UK": "left",
-  Paris: "right",
-  Brussels: "right",
-};
 
 /* Sinusoidal swell lines across the whole frame, a wavelength wider than it so
    the slow drift loops without a seam. Land is drawn over them. */
@@ -245,6 +236,7 @@ function NetherlandsAtlas({
   const [hint, setHint] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [openCity, setOpenCity] = useState<string | null>(null);
+  const [openCluster, setOpenCluster] = useState<string | null>(null);
 
   /* Follow the container until the reader has moved the map themselves. */
   useEffect(() => {
@@ -349,32 +341,25 @@ function NetherlandsAtlas({
     [view],
   );
 
-  /* Offsets in ecosystem.ts are drawn for a desktop hero. A phone shows the
-     country at half that scale, so the cluster around a city shrinks with it;
-     zooming in spreads it out again. */
   const compact = width < 640;
   const zoomedIn = view.k / baseView.k;
-  const unit = Math.max(0.5, Math.min(1.35, baseView.k / 0.84));
-  const spread = Math.min(2.2, 1 + (zoomedIn - 1) * 0.45) * unit;
-  /* On a phone, partner names wait until the reader zooms in or picks one.
-     Zoomed out to north-west Europe, the Dutch partners become dots. */
-  const partnerLabels = !compact || zoomedIn > 1.5;
   const wide = zoomedIn < 0.8;
+  /* Reference city names wait for a bit of zoom on a phone. */
+  const cityLabels = !compact || zoomedIn > 1.5;
+  const pin = compact ? 15 : 21;
 
+  /* Every marker sits on its real point; overlaps are handled by clusters
+     below, never by moving a marker. */
   const positions = useMemo(() => {
     const map = new Map<string, [number, number]>();
-    for (const node of ecoNodes) {
-      const [x, y] = screen(node.coordinates);
-      const [dx, dy] = node.offset ?? [0, 0];
-      map.set(node.id, [x + dx * spread, y + dy * spread]);
-    }
+    for (const node of ecoNodes) map.set(node.id, screen(node.coordinates));
     const chapters = ecoNodes.filter((node) => node.kind === "chapter").map((node) => map.get(node.id)!);
     map.set(NETWORK_ID, [
       chapters.reduce((sum, [x]) => sum + x, 0) / chapters.length,
       chapters.reduce((sum, [, y]) => sum + y, 0) / chapters.length,
     ]);
     return map;
-  }, [screen, spread]);
+  }, [screen]);
 
   const nodeShown = (node: EcoNode) => {
     if (node.kind === "chapter") {
@@ -498,34 +483,93 @@ function NetherlandsAtlas({
       const away = geoDistance(netherlandsCentre, group.coordinates) * (180 / Math.PI);
       const toward = geoInterpolate(netherlandsCentre, group.coordinates)(Math.min(1, 12 / Math.max(away, 0.001)));
       const [px, py] = screen(toward);
-      const x = Math.max(margin, Math.min(width - margin, px));
-      /* Clear of the zoom buttons above and the buttons below. */
-      const y = Math.max(margin + 90, Math.min(height - 120, py));
+      /* On the frame itself: where the line from the middle of the view
+         towards the place crosses the edge, then slid along that edge out
+         from under the controls. */
+      const cx = width / 2;
+      const cy = height / 2;
+      const dx = px - cx || 0.001;
+      const dy = py - cy || 0.001;
+      const t = Math.min(
+        dx > 0 ? (width - margin - cx) / dx : (margin - cx) / dx,
+        dy > 0 ? (height - margin - cy) / dy : (margin - cy) / dy,
+      );
+      let x = cx + dx * t;
+      let y = cy + dy * t;
+      if (y > height - margin - 1) x = Math.max(230, Math.min(width - 300, x));
+      if (y < margin + 1) x = Math.min(width - 90, x);
+      if (x > width - margin - 1) y = Math.max(190, Math.min(height - 120, y));
+      /* Below the "Online" list in the top-left corner. */
+      if (x < margin + 1) y = Math.max(120, Math.min(height - 70, y));
       placed.push({ ...group, x, y, angle: Math.atan2(py - y, px - x), side: x > width / 2 ? "right" : "left" });
     }
-    const located = placed.filter((item) => item.angle !== null).sort((a, b) => a.y - b.y);
-    for (let i = 1; i < located.length; i++) {
-      const previous = located[i - 1];
-      if (Math.abs(located[i].x - previous.x) < 160 && located[i].y < previous.y + 28) located[i].y = previous.y + 28;
+    /* Markers on the same edge keep their distance: along the left and
+       right edges a line apart, along the top and bottom a label apart. */
+    const located = placed.filter((item) => item.angle !== null);
+    const onSide = (item: (typeof placed)[number]) => item.x <= margin + 1 || item.x >= width - margin - 1;
+    const sides = located.filter(onSide).sort((a, b) => a.y - b.y);
+    for (let i = 1; i < sides.length; i++) {
+      const previous = sides[i - 1];
+      if (Math.abs(sides[i].x - previous.x) < 2 && sides[i].y < previous.y + 28) sides[i].y = previous.y + 28;
+    }
+    const ends = located.filter((item) => !onSide(item)).sort((a, b) => a.x - b.x);
+    for (let i = 1; i < ends.length; i++) {
+      const previous = ends[i - 1];
+      if (Math.abs(ends[i].y - previous.y) < 2 && ends[i].x < previous.x + 150) ends[i].x = previous.x + 150;
     }
     return placed;
   }, [reveal, interactive, screen, width, height]);
 
-  /* Organisations abroad that fall inside the view when zoomed out: grouped
-     by city, stacked beside a city caption. */
-  const cityStacks = useMemo(() => {
-    if (!interactive || !shows(reveal, "partners")) return [];
-    const groups = new Map<string, { city: string; x: number; y: number; nodes: AbroadNode[] }>();
-    for (const node of mapAbroad) {
-      if (!node.coordinates) continue;
-      const [x, y] = screen(node.coordinates);
-      if (x < 24 || y < 24 || x > width - 24 || y > height - 24) continue;
-      const group = groups.get(node.city) ?? { city: node.city, x, y, nodes: [] };
-      group.nodes.push(node);
-      groups.set(node.city, group);
+  /* Markers that would overlap on screen at the current zoom become one
+     cluster: a chapter keeps its pin and gains a "+n" badge; anything else
+     becomes a numbered bubble. Hovering, focusing or tapping a cluster fans
+     its members out around it, each on a leader line back to its real
+     point. Zooming in splits clusters on its own. */
+  const aheadIds = new Set(
+    reveal === "future" ? ecoLinks.filter((link) => link.strength === "prospective").map((link) => link.from) : [],
+  );
+  const clusters = useMemo(() => {
+    type Item = { node: AbroadNode; chapter: boolean; x: number; y: number };
+    const items: Item[] = [];
+    for (const node of ecoNodes) {
+      if (!nodeShown(node)) continue;
+      const [x, y] = positions.get(node.id)!;
+      items.push({ node, chapter: node.kind === "chapter", x, y });
     }
-    return Array.from(groups.values());
-  }, [reveal, interactive, screen, width, height]);
+    /* Organisations abroad join in when the reader has zoomed out far
+       enough to see their city. */
+    if (interactive && shows(reveal, "partners")) {
+      for (const node of mapAbroad) {
+        if (!node.coordinates) continue;
+        const [x, y] = screen(node.coordinates);
+        if (x > 24 && y > 24 && x < width - 24 && y < height - 24) items.push({ node, chapter: false, x, y });
+      }
+    }
+    items.sort((a, b) => Number(b.chapter) - Number(a.chapter));
+    const groups: { x: number; y: number; chapter: Item | null; members: Item[] }[] = [];
+    for (const item of items) {
+      const home = item.chapter
+        ? undefined
+        : groups.find((group) => Math.hypot(group.x - item.x, group.y - item.y) < (group.chapter ? pin + 4 : 15));
+      if (home) {
+        home.members.push(item);
+        if (!home.chapter) {
+          home.x = home.members.reduce((sum, member) => sum + member.x, 0) / home.members.length;
+          home.y = home.members.reduce((sum, member) => sum + member.y, 0) / home.members.length;
+        }
+      } else if (item.chapter) {
+        groups.push({ x: item.x, y: item.y, chapter: item, members: [] });
+      } else {
+        groups.push({ x: item.x, y: item.y, chapter: null, members: [item] });
+      }
+    }
+    return groups.map((group) => ({
+      ...group,
+      id: [group.chapter?.node.id, ...group.members.map((member) => member.node.id)].filter(Boolean).join("+"),
+    }));
+    // nodeShown reads `reveal`, which is listed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [positions, reveal, interactive, screen, width, height, pin]);
 
   const selected = everyNode.find((node) => node.id === selectedId) ?? null;
   const related = new Set(
@@ -740,7 +784,7 @@ function NetherlandsAtlas({
             return (
               <g key={city.name} className="atlas-city">
                 <circle cx={x} cy={y} r={2.2} />
-                {partnerLabels && (
+                {cityLabels && (
                   <text x={x + 6} y={y + 4}>
                     {city.name}
                   </text>
@@ -824,146 +868,187 @@ function NetherlandsAtlas({
         )}
 
         <g>
-          {ecoNodes.filter(nodeShown).map((node) => {
-            const [x, y] = positions.get(node.id)!;
-            const chapter = node.kind === "chapter";
-            const isSelected = selected?.id === node.id;
-            const side = node.labelSide ?? "right";
-            const name = node.short ?? node.name;
-            const pin = compact ? 15 : 21;
-            const lx = side === "left" ? x - (chapter ? pin + 9 : 13) : side === "right" ? x + (chapter ? pin + 9 : 13) : x;
-            const ly = side === "above" ? y - (chapter ? pin + 11 : 14) : side === "below" ? y + (chapter ? pin + 21 : 24) : y + 5;
-            const ahead = reveal === "future" && ecoLinks.some((link) => link.strength === "prospective" && link.from === node.id);
-            const labelled =
-              chapter ||
-              isSelected ||
-              ahead ||
-              hoveredId === node.id ||
-              (partnerLabels && !wide && zoomedIn >= (node.labelFrom ?? 0));
-            const anchor = side === "left" ? "end" : side === "right" ? "start" : "middle";
-            return (
-              <g
-                key={node.id}
-                data-atlas-node
-                className={`atlas-node atlas-fade-in ${chapter ? "atlas-node--chapter" : ""} ${isSelected ? "is-selected" : ""}`}
-                opacity={dimmed(node.id) ? 0.35 : 1}
-                role={interactive ? "button" : undefined}
-                tabIndex={interactive ? 0 : -1}
-                aria-pressed={interactive ? isSelected : undefined}
-                aria-label={interactive ? `${node.name}, ${ecoKindLabel[node.kind]} in ${node.city}` : undefined}
-                onClick={() => interactive && onSelect(isSelected ? null : node.id)}
-                onMouseEnter={() => setHoveredId(node.id)}
-                onMouseLeave={() => setHoveredId(null)}
-                onFocus={() => setHoveredId(node.id)}
-                onBlur={() => setHoveredId(null)}
-                onKeyDown={(event) => {
-                  if (!interactive) return;
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    onSelect(isSelected ? null : node.id);
-                  }
-                }}
-              >
-                <circle cx={x} cy={y} r={chapter ? pin + 9 : 16} fill="transparent" />
-                {chapter ? (
-                  <>
-                    {motion && <circle className="atlas-pulse" cx={x} cy={y} r={pin + 1} fill="#ff6025" />}
-                    <circle cx={x} cy={y} r={isSelected ? pin + 3 : pin} fill="#f7f5f2" stroke="#ff6025" strokeWidth={isSelected ? 3.5 : 2.5} />
-                    <image href="/sain-symbol.svg" x={x - pin * 0.72} y={y - pin * 0.72} width={pin * 1.44} height={pin * 1.44} />
-                  </>
-                ) : (
-                  <>
-                    <circle cx={x} cy={y} r={11} fill={KIND_FILL[node.kind]} opacity={0.16} />
-                    <circle
-                      cx={x}
-                      cy={y}
-                      r={isSelected ? 7.5 : 6}
-                      fill={node.kind === "government" ? "#021c4d" : KIND_FILL[node.kind]}
-                      stroke={node.kind === "government" ? "#ffffff" : "#021c4d"}
-                      strokeWidth={node.kind === "government" ? 2 : 1.6}
-                    />
-                  </>
-                )}
-                {labelled && (
-                  <text
-                    x={lx}
-                    y={ly}
-                    textAnchor={anchor}
-                    className={chapter ? "atlas-label atlas-label--chapter" : "atlas-label"}
-                    style={compact ? { fontSize: chapter ? 14 : 11.5 } : undefined}
-                  >
-                    {compact && chapter ? node.city : name}
-                  </text>
-                )}
-                {chapter && node.id === "sain-groningen" && reveal === "origin" && (
-                  <text x={lx} y={ly + 18} textAnchor={anchor} className="atlas-label atlas-label--note">
-                    AISIG, 2023
-                  </text>
-                )}
-              </g>
-            );
-          })}
-        </g>
-
-        {/* Zoomed out: the organisations abroad in their own cities. */}
-        <g>
-          {cityStacks.map((group) => {
-            const left = (CITY_SIDE[group.city] ?? (group.x < width * 0.45 ? "left" : "right")) === "left";
-            const gap = 21;
-            const top = group.y - ((group.nodes.length - 1) * gap) / 2;
-            return (
-              <g key={group.city} className="atlas-fade-in">
-                <circle cx={group.x} cy={group.y} r={3} fill="#a8c4dd" fillOpacity={0.7} pointerEvents="none" />
+          {/* The open cluster draws last, so its fan sits over its neighbours. */}
+          {[...clusters].sort((a, b) => Number(a.id === openCluster) - Number(b.id === openCluster)).map((cluster) => {
+            const ids = [cluster.chapter?.node.id, ...cluster.members.map((member) => member.node.id)].filter(Boolean) as string[];
+            const single = !cluster.chapter && cluster.members.length === 1 ? cluster.members[0] : null;
+            const open =
+              !single &&
+              cluster.members.length > 0 &&
+              (openCluster === cluster.id ||
+                ids.includes(selectedId ?? "") ||
+                cluster.members.some((member) => aheadIds.has(member.node.id)));
+            const fanRadius = cluster.chapter ? pin + 30 : 30 + Math.min(4, cluster.members.length) * 4;
+            /* Fan out over the land side: start at the top and go round. */
+            const fanned = cluster.members.map((member, i) => {
+              const angle = -Math.PI / 2 + (i * 2 * Math.PI) / Math.max(cluster.members.length, cluster.chapter ? 6 : 1);
+              return { ...member, fx: cluster.x + Math.cos(angle) * fanRadius, fy: cluster.y + Math.sin(angle) * fanRadius };
+            });
+            const select = (id: string) => {
+              if (interactive) onSelect(selectedId === id ? null : id);
+            };
+            const keySelect = (id: string) => (event: React.KeyboardEvent) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                event.stopPropagation();
+                select(id);
+              }
+            };
+            const label = (text: string, x: number, y: number, chapterLabel = false, side?: "left" | "right") => {
+              const left = side ? side === "left" : x > width - 190;
+              return (
                 <text
-                  x={group.x + (left ? -14 : 14)}
-                  y={top - 16}
+                  x={left ? x - (chapterLabel ? pin + 9 : 12) : x + (chapterLabel ? pin + 9 : 12)}
+                  y={y + 5}
                   textAnchor={left ? "end" : "start"}
-                  className="atlas-abroad-label"
+                  className={chapterLabel ? "atlas-label atlas-label--chapter" : "atlas-label"}
+                  style={compact ? { fontSize: chapterLabel ? 14 : 11.5 } : undefined}
                   pointerEvents="none"
                 >
-                  {group.city}
+                  {text}
                 </text>
-                {group.nodes.map((node, i) => {
-                  const x = group.x + (left ? -14 : 14);
-                  const y = top + i * gap;
-                  const isSelected = selected?.id === node.id;
+              );
+            };
+            const orb = (node: AbroadNode, x: number, y: number, withLabel: boolean, side?: "left" | "right") => {
+              const isSelected = selectedId === node.id;
+              return (
+                <g
+                  key={node.id}
+                  data-atlas-node
+                  className={`atlas-node ${isSelected ? "is-selected" : ""}`}
+                  opacity={dimmed(node.id) ? 0.35 : 1}
+                  role={interactive ? "button" : undefined}
+                  tabIndex={interactive ? 0 : -1}
+                  aria-pressed={interactive ? isSelected : undefined}
+                  aria-label={interactive ? `${node.name}, ${ecoKindLabel[node.kind]}, ${node.city}` : undefined}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    select(node.id);
+                  }}
+                  onKeyDown={keySelect(node.id)}
+                  onMouseEnter={() => setHoveredId(node.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                  onFocus={() => setHoveredId(node.id)}
+                  onBlur={() => setHoveredId(null)}
+                >
+                  <circle cx={x} cy={y} r={14} fill="transparent" />
+                  <circle cx={x} cy={y} r={11} fill={KIND_FILL[node.kind]} opacity={0.16} />
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={isSelected ? 7.5 : 6}
+                    fill={node.kind === "government" ? "#021c4d" : KIND_FILL[node.kind]}
+                    stroke={node.kind === "government" ? "#ffffff" : "#021c4d"}
+                    strokeWidth={node.kind === "government" ? 2 : 1.6}
+                  />
+                  {(withLabel || isSelected || hoveredId === node.id || aheadIds.has(node.id)) &&
+                    label(node.short ?? node.name, x, y, false, side)}
+                </g>
+              );
+            };
+
+            return (
+              <g
+                key={cluster.id}
+                className="atlas-fade-in"
+                onMouseEnter={() => !single && setOpenCluster(cluster.id)}
+                onMouseLeave={() => setOpenCluster((current) => (current === cluster.id ? null : current))}
+              >
+                {/* While open, the fan's whole disc is one hover target, so
+                    moving from the cluster to a member does not close it. */}
+                {open && <circle cx={cluster.x} cy={cluster.y} r={fanRadius + 16} fill="#021c4d" fillOpacity={0.55} />}
+
+                {single && orb(single.node, single.x, single.y, false)}
+
+                {!single && !cluster.chapter && !open && (
+                  <g
+                    data-atlas-node
+                    className="atlas-node"
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={false}
+                    aria-label={`${cluster.members.length} organisations: ${cluster.members.map((member) => member.node.name).join(", ")}`}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setOpenCluster(cluster.id);
+                    }}
+                    onFocus={() => setOpenCluster(cluster.id)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        setOpenCluster(cluster.id);
+                      }
+                    }}
+                  >
+                    <circle cx={cluster.x} cy={cluster.y} r={18} fill="transparent" />
+                    <circle cx={cluster.x} cy={cluster.y} r={16} fill="#ff6025" opacity={0.14} />
+                    <circle cx={cluster.x} cy={cluster.y} r={11.5} fill="#f7f5f2" stroke="#021c4d" strokeWidth={1.6} />
+                    <text x={cluster.x} y={cluster.y + 4.5} textAnchor="middle" className="atlas-cluster-count">
+                      {cluster.members.length}
+                    </text>
+                  </g>
+                )}
+
+                {open &&
+                  fanned.map((member) => (
+                    <g key={member.node.id}>
+                      <line x1={member.x} y1={member.y} x2={member.fx} y2={member.fy} stroke="#cfe0f5" strokeOpacity={0.55} strokeWidth={1} pointerEvents="none" />
+                      <circle cx={member.x} cy={member.y} r={2.5} fill="#cfe0f5" pointerEvents="none" />
+                      {orb(member.node, member.fx, member.fy, true, member.fx < cluster.x - 1 ? "left" : "right")}
+                    </g>
+                  ))}
+
+                {cluster.chapter && (() => {
+                  const node = cluster.chapter.node;
+                  const { x, y } = cluster.chapter;
+                  const isSelected = selectedId === node.id;
+                  const side = ecoNodes.find((item) => item.id === node.id)?.labelSide === "left" ? "left" : "right";
                   return (
                     <g
-                      key={node.id}
                       data-atlas-node
-                      className="atlas-node"
+                      className={`atlas-node atlas-node--chapter ${isSelected ? "is-selected" : ""}`}
                       opacity={dimmed(node.id) ? 0.35 : 1}
                       role={interactive ? "button" : undefined}
                       tabIndex={interactive ? 0 : -1}
                       aria-pressed={interactive ? isSelected : undefined}
-                      aria-label={interactive ? `${node.name}, ${node.city}` : undefined}
-                      onClick={() => interactive && onSelect(isSelected ? null : node.id)}
-                      onMouseEnter={() => setHoveredId(node.id)}
-                      onMouseLeave={() => setHoveredId(null)}
-                      onKeyDown={(event) => {
-                        if (!interactive) return;
-                        if (event.key === "Enter" || event.key === " ") {
-                          event.preventDefault();
-                          onSelect(isSelected ? null : node.id);
-                        }
+                      aria-label={
+                        interactive
+                          ? `${node.name}, SAIN chapter${cluster.members.length ? `, with ${cluster.members.length} organisations nearby` : ""}`
+                          : undefined
+                      }
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        select(node.id);
                       }}
+                      onFocus={() => cluster.members.length && setOpenCluster(cluster.id)}
+                      onKeyDown={keySelect(node.id)}
                     >
-                      <line x1={group.x} y1={group.y} x2={x} y2={y} stroke="#93b5c5" strokeOpacity={0.45} strokeWidth={1} />
-                      <circle cx={x} cy={y} r={12} fill="transparent" />
-                      <circle
-                        cx={x}
-                        cy={y}
-                        r={isSelected ? 6.5 : 5}
-                        fill={KIND_FILL[node.kind]}
-                        stroke="#021c4d"
-                        strokeWidth={1.6}
-                      />
-                      <text x={x + (left ? -11 : 11)} y={y + 4} textAnchor={left ? "end" : "start"} className="atlas-label" style={{ fontSize: 12 }}>
-                        {node.short ?? node.name}
-                      </text>
+                      <circle cx={x} cy={y} r={pin + 9} fill="transparent" />
+                      {motion && <circle className="atlas-pulse" cx={x} cy={y} r={pin + 1} fill="#ff6025" />}
+                      <circle cx={x} cy={y} r={isSelected ? pin + 3 : pin} fill="#f7f5f2" stroke="#ff6025" strokeWidth={isSelected ? 3.5 : 2.5} />
+                      <image href="/sain-symbol.svg" x={x - pin * 0.72} y={y - pin * 0.72} width={pin * 1.44} height={pin * 1.44} />
+                      {cluster.members.length > 0 && !open && (
+                        <g pointerEvents="none">
+                          <circle cx={x + pin * 0.78} cy={y - pin * 0.78} r={9} fill="#ff6025" stroke="#021c4d" strokeWidth={1.5} />
+                          <text x={x + pin * 0.78} y={y - pin * 0.78 + 4} textAnchor="middle" className="atlas-cluster-badge">
+                            +{cluster.members.length}
+                          </text>
+                        </g>
+                      )}
+                      {!open && label(compact ? node.city : node.name, x, y, true, side)}
+                      {node.id === "sain-groningen" && reveal === "origin" && (
+                        <text
+                          x={side === "left" ? x - pin - 9 : x + pin + 9}
+                          y={y + 23}
+                          textAnchor={side === "left" ? "end" : "start"}
+                          className="atlas-label atlas-label--note"
+                        >
+                          AISIG, 2023
+                        </text>
+                      )}
                     </g>
                   );
-                })}
+                })()}
               </g>
             );
           })}

@@ -996,6 +996,19 @@
 .atlas-node {
   outline: none;
 }
+.atlas-cluster-count {
+  fill: #021c4d;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  pointer-events: none;
+}
+.atlas-cluster-badge {
+  fill: #ffffff;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+}
 .is-exploring .atlas-node {
   cursor: pointer;
 }
