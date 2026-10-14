@@ -80,8 +80,7 @@ const wideCities: { name: string; coordinates: LonLat }[] = [
    Markers, labels and lines are placed in screen pixels on top, so they stay
    one size while the land grows under them.
 
-   Moving parts, each with a job: the swell says "sea", the wind says the map
-   is live, the flowing lines say which relationships are working ones. All of
+   Moving parts, each with a job: the swell says "sea", the flowing lines say which relationships are working ones. All of
    it stops under prefers-reduced-motion and while the hero is off screen. */
 
 /* "future" is the story's look ahead (prospective lines); "all" is the
@@ -147,71 +146,6 @@ function clampView(view: MapView, width: number, height: number, min: number, ma
   return { k, tx, ty };
 }
 
-/* --------------------------------------------------------------- wind -- */
-
-function useWind(canvas: React.RefObject<HTMLCanvasElement | null>, width: number, height: number, running: boolean) {
-  useEffect(() => {
-    const element = canvas.current;
-    if (!element || !width || !height) return;
-    const ratio = Math.min(2, window.devicePixelRatio || 1);
-    element.width = Math.round(width * ratio);
-    element.height = Math.round(height * ratio);
-    const context = element.getContext("2d");
-    if (!context) return;
-    context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    context.clearRect(0, 0, width, height);
-    if (!running) return;
-
-    const count = Math.round(Math.min(170, (width * height) / 5200));
-    const particles = Array.from({ length: count }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      age: Math.random() * 160,
-      life: 120 + Math.random() * 120,
-    }));
-    let frame = 0;
-    let last = 0;
-    const step = (now: number) => {
-      frame = requestAnimationFrame(step);
-      /* Thirty frames a second is plenty for a breeze. */
-      if (now - last < 32) return;
-      last = now;
-      context.globalCompositeOperation = "destination-out";
-      context.fillStyle = "rgba(0, 0, 0, 0.13)";
-      context.fillRect(0, 0, width, height);
-      context.globalCompositeOperation = "source-over";
-      context.lineWidth = 1;
-      context.lineCap = "round";
-      const t = now * 0.00012;
-      for (const p of particles) {
-        /* Prevailing south-westerly, bent by two slow waves. */
-        const angle =
-          -0.32 + 0.38 * Math.sin(p.x * 0.0042 + t) + 0.26 * Math.cos(p.y * 0.0057 - t * 1.3);
-        const speed = 0.85 + 0.45 * Math.sin(p.y * 0.003 + t * 2);
-        const nx = p.x + Math.cos(angle) * speed * 1.6;
-        const ny = p.y + Math.sin(angle) * speed * 1.6;
-        const fade = Math.sin(Math.PI * Math.min(1, p.age / p.life));
-        context.strokeStyle = `rgba(214, 232, 255, ${0.22 * fade})`;
-        context.beginPath();
-        context.moveTo(p.x, p.y);
-        context.lineTo(nx, ny);
-        context.stroke();
-        p.x = nx;
-        p.y = ny;
-        p.age += 1;
-        if (p.age > p.life || p.x > width + 10 || p.y < -10 || p.y > height + 10) {
-          p.x = Math.random() * width * 0.9 - width * 0.05;
-          p.y = Math.random() * height;
-          p.age = 0;
-          p.life = 120 + Math.random() * 120;
-        }
-      }
-    };
-    frame = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame);
-  }, [canvas, width, height, running]);
-}
-
 /* ---------------------------------------------------------------- map -- */
 
 function NetherlandsAtlas({
@@ -231,7 +165,6 @@ function NetherlandsAtlas({
   const drag = useRef<{ x: number; y: number; view: MapView; id: number } | null>(null);
   const pinch = useRef<Map<number, { x: number; y: number }>>(new Map());
   const pinchStart = useRef<{ distance: number; view: MapView; cx: number; cy: number } | null>(null);
-  const windCanvas = useRef<HTMLCanvasElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const [hint, setHint] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -248,8 +181,6 @@ function NetherlandsAtlas({
       setView(baseView);
     }
   }, [interactive, baseView]);
-
-  useWind(windCanvas, width, height, motion);
 
   const wideView = useMemo(
     () => northWestEuropeView(width || 1, height || 1, 28, width > 700 ? 80 : 0),
@@ -1149,7 +1080,6 @@ function NetherlandsAtlas({
         </g>
       </svg>
 
-      <canvas ref={windCanvas} className="pointer-events-none absolute inset-0 size-full" aria-hidden="true" />
 
       {interactive && (
         <>
