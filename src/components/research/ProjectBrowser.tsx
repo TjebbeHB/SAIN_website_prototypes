@@ -4,23 +4,22 @@ import { useMemo, useState } from "react";
 import {
   ArrowUpRightIcon,
   CaretDownIcon,
-  EnvelopeSimpleIcon,
   MagnifyingGlassIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import {
   PROJECTS_EMAIL,
-  interestMailto,
   projectCategories,
   projects,
   type Project,
   type ProjectCategory,
 } from "@/data/projects";
+import { RESEARCH_INTEREST_FORM_URL } from "@/data/research";
 
 /* The open projects, findable the way SPAR lists its own: filter by topic
    and place, search across everything, open a card for the detail. The
-   difference is the last step, which stays human: "I'm interested" opens an
-   email to the projects team, who introduce the candidate to the
-   supervisor. No accounts, no application system. */
+   difference is the last step, which stays human: "I'm interested" opens the
+   Project Hub sign-up form, and the projects team introduces the candidate
+   to the supervisor. No accounts, no application system. */
 
 const BASES = ["Amsterdam", "Groningen", "Remote"] as const;
 
@@ -124,9 +123,15 @@ function ProjectCard({ project }: { project: Project }) {
 
         <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-5">
           {project.open ? (
-            <a href={interestMailto(project)} className="btn-accent gap-2 !px-4 !py-2.5 !text-[14px]">
-              <EnvelopeSimpleIcon size={16} aria-hidden="true" />
+            <a
+              href={RESEARCH_INTEREST_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-accent gap-2 !px-4 !py-2.5 !text-[14px]"
+            >
               I&rsquo;m interested
+              <ArrowUpRightIcon size={16} aria-hidden="true" />
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
           ) : (
             <span className="text-caption text-navy/60">Closed for now</span>

@@ -4,8 +4,8 @@
 
    A summary here paraphrases the supervisor's own words and adds nothing to
    them: no prerequisite, commitment or level appears unless the supervisor
-   stated it. Interest goes to the projects inbox by email; the projects team
-   introduces the candidate to the supervisor.
+   stated it. Interest goes through the Project Hub sign-up form; the projects
+   team introduces the candidate to the supervisor.
 
    To add a project: add an entry with its supervisor and categories. To close
    one: set `open: false` (it stays listed, marked closed) or delete it. */
@@ -410,24 +410,3 @@ export const projects: Project[] = [
     open: true,
   },
 ];
-
-/* The email a candidate sends: addressed to the projects team, who make the
-   introduction. Everything a supervisor would ask first is already a line. */
-export function interestMailto(project: Project) {
-  const subject = `Project Hub: ${project.title} (${project.supervisor.name})`;
-  const body = [
-    "Hi SAIN projects team,",
-    "",
-    `I'd like to join this project: "${project.title}", supervised by ${project.supervisor.name}.`,
-    "",
-    "About me (study or work, relevant skills):",
-    "",
-    "Why this project:",
-    "",
-    "Hours per week I can commit:",
-    "",
-    "CV or LinkedIn:",
-    "",
-  ].join("\n");
-  return `mailto:${PROJECTS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}

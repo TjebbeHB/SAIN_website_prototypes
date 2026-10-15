@@ -13,7 +13,6 @@ import { PROJECTS_EMAIL, projects } from "@/data/projects";
 import {
   publications,
   supervisors,
-  RESEARCH_EMAIL,
   RESEARCH_INTEREST_FORM_URL,
   SUPERVISOR_INTEREST_FORM_URL,
 } from "@/data/research";
@@ -24,8 +23,8 @@ export const metadata: Metadata = {
     "The SAIN Project Hub matches you with an experienced supervisor, arranges compute, and takes a project from open question to published finding. Voluntary, remote-friendly, and open for applications at any time.",
 };
 
-const RESEARCHER_MAILTO = `mailto:${RESEARCH_EMAIL}?subject=${encodeURIComponent(
-  "Project Hub: joining as a researcher",
+const PROJECTS_MAILTO = `mailto:${PROJECTS_EMAIL}?subject=${encodeURIComponent(
+  "Project Hub: question",
 )}`;
 
 /* Counted from the data file rather than typed. The old hero carried "6+ Active
@@ -48,17 +47,18 @@ const projectRoutes = [
   },
   {
     lead: "Join an open collaboration.",
-    body: "Some projects run without formal supervision. One researcher leads, usually the person who designed the project, and SAIN connects collaborators and supports the work.",
+    body: "Some projects run without formal supervision. One person leads, usually whoever designed the project, and SAIN connects collaborators and supports the work.",
   },
   {
     lead: "Bring your own idea.",
-    body: "Write a short proposal: the question, why it matters, how you would test it, and what you need. SAIN's research team reviews it, and can help you shape it if it is not fully formed yet.",
+    body: "Write a short proposal: the question, why it matters, how you would test it, and what you need. SAIN's Project Team reviews it, and can help you shape it if it is not fully formed yet.",
   },
 ];
 
 const eligibility = [
   "Students at Bachelor, Master, or PhD level",
-  "Researchers working in industry",
+  "Researchers, and people working in industry",
+  "Policy professionals",
   "People with no formal affiliation",
 ];
 
@@ -156,7 +156,7 @@ export default function ResearchPage() {
         <div className="shell band-hero grid min-h-[60dvh] items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] xl:grid-cols-[minmax(0,700px)_minmax(0,1fr)]">
           <Reveal hero className="flex min-w-0 flex-col gap-6">
             <h1 id="research-hero-heading" className="font-serif text-display text-navy">
-              Make a first real contribution to AI Safety research
+              Make a first real contribution to AI Safety
             </h1>
             <p className="max-w-[620px] font-sans text-body text-navy/72">
               The SAIN Project Hub matches you with an experienced supervisor, arranges compute,
@@ -208,7 +208,7 @@ export default function ResearchPage() {
 
       {/* The projects themselves, straight after the claim: the reader came
           to find one. Filter, search, open a card, and "I'm interested"
-          emails the projects team, who make the introduction. */}
+          opens the sign-up form; the projects team makes the introduction. */}
       <section id="projects" aria-labelledby="projects-heading" className="scroll-mt-28 border-t border-navy/10 bg-cream">
         <div className="shell band-section flex flex-col gap-8">
           <div className="flex max-w-[760px] flex-col gap-4">
@@ -218,8 +218,9 @@ export default function ResearchPage() {
             </h2>
             <p className="font-sans text-body text-navy/74">
               These are the projects SAIN supervisors have offered, in their own words. Open a card for
-              the detail, and if one fits, press &ldquo;I&rsquo;m interested&rdquo;: it starts an email to
-              the projects team at {PROJECTS_EMAIL}, who introduce you to the supervisor.
+              the detail, and if one fits, press &ldquo;I&rsquo;m interested&rdquo; to fill in the sign-up
+              form. The projects team gets back to you within a working week and introduces you to
+              the supervisor.
             </p>
           </div>
           <ProjectBrowser />
@@ -252,7 +253,7 @@ export default function ResearchPage() {
               <p className="font-sans text-body text-navy/74">
                 The hub is open to anyone with sufficient background:
               </p>
-              {/* The landing's dash list rather than hairline rows: three
+              {/* The landing's dash list rather than hairline rows: four
                   short items do not need a table, and the rules were reading
                   as a form inside a reading column. */}
               <ul role="list" className="mt-4 flex flex-col gap-2.5">
@@ -294,7 +295,7 @@ export default function ResearchPage() {
 
           <Reveal delay={0.05}>
           <ol role="list" aria-label="The three steps of a project" className="mt-12 md:mt-16">
-            <Step step="01" id="choose" title="Choose a research project">
+            <Step step="01" id="choose" title="Choose a project">
               <p className="mt-5 max-w-[760px] text-body text-white/75">
                 There are three ways in, and all three are normal.
               </p>
@@ -317,15 +318,16 @@ export default function ResearchPage() {
               </ol>
 
               <p className="mt-7 max-w-[760px] text-body text-white/75">
-                The scope is broad on purpose: technical alignment and interpretability, governance
-                and policy with an EU and Dutch emphasis, and foundational questions about how the
-                field measures progress. If you are unsure whether a topic counts as AI Safety, the
-                default answer is yes, provided you can articulate a plausible pathway from the work
-                to reducing AI-related risk.
+                Not every valuable contribution is a research paper: the work can be technical,
+                governance, policy, or conceptual. When choosing projects, the team looks at three
+                things: relevance to the Netherlands and Europe, relevance to transformative AI, and
+                whether it can succeed on a small budget. If you are unsure whether a topic counts as
+                AI Safety, the default answer is yes, provided you can articulate a plausible pathway
+                from the work to reducing risk from transformative AI.
               </p>
 
               <div className="mt-6">
-                <InverseLink href="/research/handbook">Read the research handbook</InverseLink>
+                <InverseLink href="/research/handbook">Read the Project Hub handbook</InverseLink>
               </div>
             </Step>
 
@@ -338,15 +340,16 @@ export default function ResearchPage() {
                 </p>
                 <p className="text-body text-white/75">
                   Supervision is a working relationship, not a lecture. You drive the day-to-day
-                  research; your supervisor helps scope the project realistically, reviews
+                  work; your supervisor helps scope the project realistically, reviews
                   experiments and drafts, and steps in when a direction stops being productive.
                   Meetings run weekly or biweekly, and you agree your commitment per project up
                   front, whether that is five to ten hours a week alongside a degree or something
                   closer to full time.
                 </p>
                 <p className="text-body text-white/75">
-                  Supervisors are usually researchers at PhD level or more senior, with exceptions.
-                  Compute is arranged per project at the start, and computationally inexpensive
+                  Supervisors come from universities, industry, and government. In academia they
+                  are usually at PhD level or more senior; outside it, they have several years of
+                  senior experience in a relevant role. Compute is arranged per project at the start, and computationally inexpensive
                   projects are encouraged. Remote participation works throughout.
                 </p>
               </div>
@@ -361,8 +364,8 @@ export default function ResearchPage() {
                 <p className="text-body text-white/75">
                   A project is complete when its main question is adequately answered, including
                   when the answer is negative, and the result is published in a presentable form: a
-                  workshop paper, a policy brief, or a blog post on SAIN&rsquo;s Substack or
-                  LessWrong. You get feedback on drafts, and SAIN may help with conference travel
+                  paper, a policy brief, an evaluation or open-source tool, or a blog post on
+                  SAIN&rsquo;s Substack or LessWrong. You get feedback on drafts, and SAIN may help with conference travel
                   within reason.
                 </p>
                 <p className="text-body text-white/75">
@@ -427,9 +430,9 @@ export default function ResearchPage() {
                 The people you would work with
               </h2>
               <p className="max-w-[720px] font-sans text-body text-navy/74">
-                Every supervisor keeps a public research agenda. Read it before you apply: the
-                strongest expressions of interest respond to a question a supervisor has already
-                posed.
+                Every supervisor keeps a public agenda of the projects they would like to supervise.
+                Read it before you apply: the strongest expressions of interest respond to a
+                question a supervisor has already posed.
               </p>
             </div>
 
@@ -443,10 +446,12 @@ export default function ResearchPage() {
             <div className="flex max-w-[720px] flex-col items-start gap-5 border-t border-navy/14 pt-8">
               <h3 className="font-serif text-title text-navy">Supervise the next project</h3>
               <p className="font-sans text-body text-navy/74">
-                If you are an experienced researcher, usually at PhD level or above, and the
-                papers above look like work you could have guided, more supervisors means more
-                projects. Supervision is remote-friendly, meetings run at a cadence you agree per
-                project, and the research team handles the coordination around you. Fill in the
+                If you have substantial experience in a relevant field, usually PhD level or above in
+                academia or several years in a senior role in industry or policy, and the work above
+                looks like something you could guide, more supervisors means more projects. You do
+                not need to be an AI Safety expert already. Supervision is remote-friendly, meetings
+                run at a cadence you agree per project, and the Project Team handles the
+                coordination around you. Fill in the
                 supervisor form and we will follow up with next steps.
               </p>
               <a
@@ -474,7 +479,7 @@ export default function ResearchPage() {
             </h2>
             <p className="mt-4 max-w-[560px] font-sans text-body text-white/78">
               Applications are rolling, and for supervised projects you hear back within a working
-              week. Fill in the interest form, or email the research team if you are not sure where
+              week. Fill in the interest form, or email the projects team if you are not sure where
               you fit and we will help route you.
             </p>
           </div>
@@ -491,8 +496,8 @@ export default function ResearchPage() {
                 <ArrowUpRight size={16} weight="regular" aria-hidden="true" />
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
-              <a href={RESEARCHER_MAILTO} className="btn-ghost-inverse">
-                Email the research team
+              <a href={PROJECTS_MAILTO} className="btn-ghost-inverse">
+                Email the projects team
               </a>
             </div>
             <p className="max-w-[420px] font-sans text-footnote leading-[19px] text-white/60">
@@ -501,7 +506,7 @@ export default function ResearchPage() {
                 href="/research/handbook"
                 className="text-white/80 underline decoration-white/35 underline-offset-4 hover:text-white focus-visible:text-white"
               >
-                Read the research handbook
+                Read the Project Hub handbook
               </Link>
             </p>
           </div>

@@ -144,8 +144,8 @@ export const publications: Publication[] = [
   },
   {
     title: "Playing with Perception: Fooling Traffic Sign Classifiers via Copy-Paste Manipulation",
-    venueShort: "Research project",
-    venue: "Research project",
+    venueShort: "SAIN project",
+    venue: "SAIN Project Hub",
     authors: "Davide Zani, Alexandru Dimofte",
     link: "https://drive.google.com/file/d/1JvhstWaLIHB9QPI-cg5S-1ASexhmqLSN/view",
     chipTitle: "Playing with Perception",
@@ -233,7 +233,10 @@ export const supervisors: Supervisor[] = [
 ];
 
 export const RESEARCH_EMAIL = "research@safeainetherlands.org";
-export const RESEARCH_INTEREST_FORM_URL = "https://forms.gle/na3wbBR4V1YVHAnFA";
+/* The Project Hub sign-up form: "Register your interest" and every project's
+   "I'm interested" go here, until the Airtable form replaces it. */
+export const RESEARCH_INTEREST_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSedM6m7WjjFmztnBvzsSoFkpi9X7LvMiUv2MtyGNisPXPZNNw/viewform";
 /* Every "Become a supervisor" link goes here (upstream #57), not to the inbox. */
 export const SUPERVISOR_INTEREST_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLScpE5jSBGAihD_8qJn7wRWdEFGieYQdLaPUZ8JiZyUVpn519g/viewform";

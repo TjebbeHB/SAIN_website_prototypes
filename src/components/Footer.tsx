@@ -28,7 +28,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
     links: [
       { name: "Courses", href: "/courses" },
       { name: "Project hub", href: "/research" },
-      { name: "Research handbook", href: "/research/handbook" },
+      { name: "Project Hub handbook", href: "/research/handbook" },
       { name: "Volunteer", href: "/get-involved" },
     ],
   },
