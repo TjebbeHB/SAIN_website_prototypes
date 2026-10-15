@@ -11,6 +11,7 @@ import SupervisorRow from "@/components/research/SupervisorRow";
 import ProjectBrowser from "@/components/research/ProjectBrowser";
 import { PROJECTS_EMAIL, projects } from "@/data/projects";
 import {
+  paperHref,
   publications,
   supervisors,
   RESEARCH_INTEREST_FORM_URL,
@@ -384,30 +385,54 @@ export default function ResearchPage() {
                 aria-label="All publications from the SAIN community"
                 className="research-publications mt-10 grid scroll-mt-36 gap-3 sm:grid-cols-2 xl:grid-cols-3"
               >
-                {publications.map((paper) => (
-                  <li key={paper.link} className="flex">
-                    <a
-                      href={paper.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="pub-chip w-full"
-                    >
+                {publications.map((paper) => {
+                  const chip = (
+                    <>
                       <span className="w-[118px] shrink-0 font-sans text-footnote font-medium text-orange md:w-[136px]">
                         {paper.venueShort}
                       </span>
                       <span className="min-w-0 font-serif text-kicker-sm text-white">
                         {paper.chipTitle}
-                        <ArrowUpRight
-                          size={14}
-                          weight="regular"
-                          aria-hidden="true"
-                          className="ml-1 inline-block shrink-0 align-[-2px] text-white/70"
-                        />
-                        <span className="sr-only"> (opens in a new tab)</span>
+                        {paper.reader ? (
+                          <ArrowRight
+                            size={14}
+                            weight="regular"
+                            aria-hidden="true"
+                            className="ml-1 inline-block shrink-0 align-[-2px] text-white/70"
+                          />
+                        ) : (
+                          <>
+                            <ArrowUpRight
+                              size={14}
+                              weight="regular"
+                              aria-hidden="true"
+                              className="ml-1 inline-block shrink-0 align-[-2px] text-white/70"
+                            />
+                            <span className="sr-only"> (opens in a new tab)</span>
+                          </>
+                        )}
                       </span>
-                    </a>
-                  </li>
-                ))}
+                    </>
+                  );
+                  return (
+                    <li key={paper.link} className="flex">
+                      {paper.reader ? (
+                        <Link href={paperHref(paper)} className="pub-chip w-full">
+                          {chip}
+                        </Link>
+                      ) : (
+                        <a
+                          href={paper.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="pub-chip w-full"
+                        >
+                          {chip}
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </Step>
           </ol>

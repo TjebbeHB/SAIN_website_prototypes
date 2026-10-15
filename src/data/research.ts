@@ -35,6 +35,15 @@ export type Publication = {
   chipTitle: string;
   authors: string;
   link: string;
+  /** The paper is hosted on this site and opens in SAIN's own reader at
+      /research/papers/<slug> instead of linking out. Only for papers whose
+      licence allows it (all three below are CC BY 4.0 on arXiv). */
+  reader?: {
+    slug: string;
+    /** Under public/papers. */
+    pdf: string;
+    license: string;
+  };
   /** Selected landing-page evidence; summaries are grounded in the linked papers. */
   featured?: {
     illustration: "alignment" | "ablation" | "eu-agents";
@@ -52,6 +61,11 @@ export const publications: Publication[] = [
     authors: "Jeremias Ferrao, Matthijs van der Lende, Ilija Lichkovski",
     link: "https://arxiv.org/abs/2509.12934",
     chipTitle: "The Anatomy of Alignment",
+    reader: {
+      slug: "anatomy-of-alignment",
+      pdf: "/papers/anatomy-of-alignment.pdf",
+      license: "CC BY 4.0",
+    },
     featured: {
       illustration: "alignment",
       venueLabel: "NeurIPS 2025 workshop · Spotlight",
@@ -66,6 +80,13 @@ export const publications: Publication[] = [
       "Jeremias Ferrao, Luhan Mikaelson, Keenan Pepper, Natalia Perez-Campanero Antolin",
     link: "https://openreview.net/pdf?id=QcmEb490bK",
     chipTitle: "Self-Ablating Transformers",
+    /* The hosted PDF is the arXiv copy (2505.00509): OpenReview does not
+       serve its PDF to scripts, and arXiv carries the licence. */
+    reader: {
+      slug: "self-ablating-transformers",
+      pdf: "/papers/self-ablating-transformers.pdf",
+      license: "CC BY 4.0",
+    },
     featured: {
       illustration: "ablation",
       venueLabel: "ICLR 2025 · Building Trust Workshop",
@@ -78,6 +99,11 @@ export const publications: Publication[] = [
     venue: "NeurIPS 2025 Regulatable ML Workshop",
     authors: "Ilija Lichkovski, Alexander Müller, Mariam Ibrahim, Tiwai Mhundwa",
     link: "https://arxiv.org/abs/2510.21524",
+    reader: {
+      slug: "eu-agent-bench",
+      pdf: "/papers/eu-agent-bench.pdf",
+      license: "CC BY 4.0",
+    },
     chipTitle: "EU-Agent-Bench",
     featured: {
       illustration: "eu-agents",
@@ -231,6 +257,22 @@ export const supervisors: Supervisor[] = [
       "https://docs.google.com/document/d/122Bvbp-Om_6-KKq8f_DorvbDnEXYEzcNrsvVPbmpa2o/edit?usp=drivesdk",
   },
 ];
+
+/* Where a paper opens: SAIN's own reader when the PDF is hosted here,
+   otherwise the paper's source. An internal href has to go through next/link
+   so the GitHub Pages base path is added. */
+export function paperHref(paper: Publication) {
+  return paper.reader ? `/research/papers/${paper.reader.slug}` : paper.link;
+}
+
+/* "arXiv" or "OpenReview", for the link back to the version of record. */
+export function paperSourceName(paper: Publication) {
+  const host = new URL(paper.link).hostname;
+  if (host.endsWith("arxiv.org")) return "arXiv";
+  if (host.endsWith("openreview.net")) return "OpenReview";
+  if (host.endsWith("apartresearch.com")) return "Apart Research";
+  return host.replace(/^www\./, "");
+}
 
 export const RESEARCH_EMAIL = "research@safeainetherlands.org";
 /* The Project Hub sign-up form: "Register your interest" and every project's
